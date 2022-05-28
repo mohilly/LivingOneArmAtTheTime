@@ -21,23 +21,23 @@ public class CharacterManager : MonoBehaviour
     void Start()
     {
         //Character Stats Allocation
-        Armstrong.nameSet("Armstrong");
-        Armstrong.speedSet(10);
-        Armstrong.staminaSet(5);
-        Armstrong.balanceSet(10);
-        Armstrong.strengthSet(7);
-
-        Dahy.nameSet("Dahy");
-        Dahy.speedSet(3);
-        Dahy.staminaSet(10);
-        Dahy.balanceSet(10);
-        Dahy.strengthSet(10);
-
-        Dexter.nameSet("Dexter");
-        Dexter.speedSet(3);
-        Dexter.staminaSet(10);
-        Dexter.balanceSet(10);
-        Dexter.strengthSet(10);
+        //Armstrong.nameSet("Armstrong");
+        //Armstrong.speedSet(10);
+        //Armstrong.staminaSet(5);
+        //Armstrong.balanceSet(10);
+        //Armstrong.strengthSet(7);
+        //
+        //Dahy.nameSet("Dahy");
+        //Dahy.speedSet(3);
+        //Dahy.staminaSet(10);
+        //Dahy.balanceSet(10);
+        //Dahy.strengthSet(10);
+        //
+        //Dexter.nameSet("Dexter");
+        //Dexter.speedSet(3);
+        //Dexter.staminaSet(10);
+        //Dexter.balanceSet(10);
+        //Dexter.strengthSet(10);
 
     }
 
