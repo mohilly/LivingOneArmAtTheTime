@@ -17,6 +17,7 @@ public class CharacterManager : MonoBehaviour
     Character Dexter;
 
     public CharacterController controller;
+    float characterRotation = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -28,13 +29,6 @@ public class CharacterManager : MonoBehaviour
         Armstrong = new Character("Armstrong", 10, 5, 7);
         Dahy = new Character("Dahy", 5, 10, 3);
         Dexter = new Character("Dexter", 7, 5, 10);
-
-        //Input
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-
-        Vector3 moving = transform.right * x + transform.forward * z; // change so character cannot go left and right, but rather rotate to those directions
-
     }
 
     // Update is called once per frame
@@ -69,6 +63,19 @@ public class CharacterManager : MonoBehaviour
         activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
         controller = activeCharacter.GetComponent<CharacterController>();
 
+        //Input
+        float ADinput = Input.GetAxis("Horizontal");
+        float WSinput = Input.GetAxis("Vertical");
+
+        // pressing A or D turns player
+        characterRotation = ADinput;
+        Vector3 turning = new Vector3(0f, characterRotation, 0f); 
+
+        //Character always goes forward based on the way they are facing
+        Vector3 moving = activeCharacter.transform.rotation * transform.forward * WSinput * Time.deltaTime; 
+
+        controller.Move(moving);
+        controller.transform.Rotate(turning);
     }
 
     /*Getting the input from alphanumeric or kepad*/
