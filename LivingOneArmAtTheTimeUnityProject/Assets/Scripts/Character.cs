@@ -31,19 +31,19 @@ public class Character {
         strength = 5; // this will be conntected to the calculation of how fast balance 
     }
 
-    /*
+    
     // constructor for making characters
-    Character(string _Name, float _Speed, float _Stamina, float _Strength) 
+    public Character(string _Name, float _Speed, float _Stamina, float _Strength) 
     {
         name = _Name;
         speed = _Speed;
         stamina = _Stamina;
 
         need2KeepBalance = false; // false by default, triggered by certain types of action
-        balance = 1;
+        balance = 10;
         strength = _Strength; // this will be conntected to the calculation of how fast balance 
     }
-    */
+    
 
     //Setters
     public string nameSet(string _Name)
