@@ -94,6 +94,9 @@ public class Character {
         return strength;
     }
 
+
+
+
     //Deconstructor
     ~Character(){}
 }

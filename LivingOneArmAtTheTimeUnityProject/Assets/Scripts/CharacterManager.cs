@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
-{   
+{
+    public GameObject GOArmstrong;
+    public GameObject GODahy;
+    public GameObject GODexter;
+
     Character Armstrong;
     Character Dahy;
     Character Dexter;
@@ -12,8 +16,6 @@ public class CharacterManager : MonoBehaviour
     bool left = false;
     bool forward = false;
     bool backward = false;
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +44,7 @@ public class CharacterManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (right&&left) //if player presses both left and right at the same time
         {
             right = false;
@@ -105,7 +108,7 @@ public class CharacterManager : MonoBehaviour
                 // code block
                 break;
         }
-
+        */
     }
 
 }
