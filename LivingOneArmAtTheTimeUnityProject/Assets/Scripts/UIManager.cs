@@ -21,6 +21,11 @@ public class UIManager : MonoBehaviour
     float balanceUI = 0f;
     int itemsUI = 0;
 
+    //public TMP_Text txt_speedNumCur;
+    public TMP_Text txt_staminaNumCur;
+    public TMP_Text txt_balanceNumCur;
+
+
     private void Awake()
     { 
         // AAAHHH THIS DOESN'T WORK!!!!!
@@ -46,6 +51,9 @@ public class UIManager : MonoBehaviour
         //Need to update this values according to Character Manager
         txt_balanceNum.text = balanceUI.ToString();
         txt_strengthNum.text = itemsUI.ToString();
+
+        txt_staminaNumCur.text = strengthUI.ToString();
+        txt_balanceNumCur.text = balanceUI.ToString();
     }
 
     // Update is called once per frame
@@ -55,7 +63,6 @@ public class UIManager : MonoBehaviour
         staminaUI = characterManager.actSSSGet()[1];
         strengthUI = characterManager.actSSSGet()[2];
 
-
         //changing text on the UI
         txt_speedNum.text = speedUI.ToString();
         txt_staminaNum.text = staminaUI.ToString();
@@ -64,5 +71,10 @@ public class UIManager : MonoBehaviour
         //Need to update this values according to Character Manager
         txt_balanceNum.text = balanceUI.ToString();
         txt_strengthNum.text = itemsUI.ToString();
+
+        //txt_speedNumCur.text = characterManager. ; //to update later if needed
+        txt_staminaNumCur.text = characterManager.currentStamina.ToString();
+        txt_balanceNumCur.text = characterManager.currentBalance.ToString();
+
     }
 }

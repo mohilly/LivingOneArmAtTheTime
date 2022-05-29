@@ -33,6 +33,14 @@ public class CharacterManager : MonoBehaviour
     float activeStamina;
     float activeStrength;
 
+    public bool isMoving          = false;
+    public bool isCaryingItem     = false;
+    public bool isSpacedItem      = false; // second position of the item that imapcts the balance
+    public bool need2KeepBalance  = false; // false by default, triggered by certain types of action
+    public float currentBalance   = 10;
+    public float currentStamina;
+
+
     private void Awake()
     {
         activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
@@ -47,7 +55,7 @@ public class CharacterManager : MonoBehaviour
     }
     void Start()
     {
-
+        currentStamina = actSSSGet()[1];
     }
 
     // Update is called once per frame
@@ -93,6 +101,8 @@ public class CharacterManager : MonoBehaviour
         // LOOK UP ON LINE ABOVE = CHANGE ITEMS PARENT TO THE EMPTY TRANSFORM OBJECT ALREADY ATTACHED TO PLAYER'S (HAND, LAP ETC), THEN CHANGE POSITION OF PICKED ITEM TO (0,0,0,) TO BE IN CENTER 
 
         characterMove();
+        if(isMoving) { characterStaminaDecrease(); } 
+        else if (!isMoving){ characterStaminaIncrease(); }
     }
 
     /*Getting the input from alphanumeric or kepad*/
@@ -142,7 +152,28 @@ public class CharacterManager : MonoBehaviour
         //NEED TO UPDATE THIS SO IT TAKES THE SPEED, AND INCREASES TO IT.
         moving = activeCharacter.transform.rotation * transform.forward * WSinput * actSSSGet()[0] * Time.deltaTime;
 
+        if (WSinput != 0) { isMoving = true; } // Debug.Log("Character is moving");  confirmed it works
+        else { isMoving = false; } // Debug.Log("Character is still")confirmed it works
+
         controller.Move(moving);
         controller.transform.Rotate(turning);
+    }
+
+    void characterStaminaDecrease()
+    {
+        if (currentStamina > 0)
+        { currentStamina -= 1f * Time.deltaTime; }
+        else if (currentStamina <= 0)
+        { currentStamina = 0; }
+        Debug.Log(currentStamina);
+    }
+
+    void characterStaminaIncrease()
+    {
+        if (currentStamina <= actSSSGet()[1])
+        { currentStamina += 1f * Time.deltaTime; }
+        if (currentStamina > actSSSGet()[1])
+        { currentStamina = actSSSGet()[1]; }
+        Debug.Log("Increasing stamina to " + currentStamina);
     }
 }
