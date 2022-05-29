@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ public class CharacterManager : MonoBehaviour
     Character Dexter;
 
     int numberCharacter = 1;
-    string tagCharacter = "Tag_Armstrong";
+    public string tagCharacter = "Tag_Armstrong";
 
     public bool controlArmstrong    = false;
     public bool controlDahy         = false;
@@ -26,6 +27,11 @@ public class CharacterManager : MonoBehaviour
 
     Vector3 turning;
     Vector3 moving;
+
+    float[] activeSpeedStaminaStrength;
+    float activeSpeed;
+    float activeStamina;
+    float activeStrength;
 
     private void Awake()
     {
@@ -52,6 +58,8 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = true;
                 controlDahy = false;
                 controlDexter = false;
+                actSSSSet(Armstrong);
+                //Debug.Log("Speed: " + activeSpeedStaminaStrength[0] + ", Stamina " + activeSpeedStaminaStrength[1] + ", Strength: " + activeSpeedStaminaStrength[2]);
                 break;
             case 2:
                 //Debug.Log("Dahy active");
@@ -59,6 +67,8 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = false;
                 controlDahy = true;
                 controlDexter = false;
+                actSSSSet(Dahy);
+                //Debug.Log("Speed: " + activeSpeedStaminaStrength[0] + ", Stamina " + activeSpeedStaminaStrength[1] + ", Strength: " + activeSpeedStaminaStrength[2]);
                 break;
             case 3:
                 //Debug.Log("Dexter active");
@@ -66,6 +76,8 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = false;
                 controlDahy = false;
                 controlDexter = true;
+                actSSSSet(Dexter);
+                //Debug.Log("Speed: " + activeSpeedStaminaStrength[0] + ", Stamina " + activeSpeedStaminaStrength[1] + ", Strength: " + activeSpeedStaminaStrength[2]);
                 break;
         }
 
@@ -86,6 +98,7 @@ public class CharacterManager : MonoBehaviour
 
         controller.Move(moving);
         controller.transform.Rotate(turning);
+
     }
 
     /*Getting the input from alphanumeric or kepad*/
@@ -100,5 +113,28 @@ public class CharacterManager : MonoBehaviour
     public Vector3 actCharPosGet()
     {
         return activeCharacter.transform.position;
+    }
+
+    //Setting the Speed, Stamina and Strength of an active character
+    public float[] actSSSSet(Character character)
+    {
+        activeSpeed = character.speedGet();
+        activeStamina = character.staminaGet();
+        activeStrength = character.strengthGet();
+        
+        float[] actSSS = {activeSpeed, activeStamina, activeStrength};
+
+        //Causes some stupid error, just comment it out
+        //Array.Clear(activeSpeedStaminaStrength, 0, activeSpeedStaminaStrength.Length); // emptying extising array
+
+        activeSpeedStaminaStrength = actSSS;
+
+        return activeSpeedStaminaStrength;
+    }
+
+    //Getting the active Speed, Stamina and Strength
+    public float[] actSSSGet()
+    {
+        return activeSpeedStaminaStrength;
     }
 }
