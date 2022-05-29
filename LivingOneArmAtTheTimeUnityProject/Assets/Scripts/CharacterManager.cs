@@ -12,6 +12,8 @@ public class CharacterManager : MonoBehaviour
     public bool controlDahy = false;
     public bool controlDexter = false;
 
+    public Camera mainCam;
+
     Character Armstrong;
     Character Dahy;
     Character Dexter;
@@ -25,6 +27,8 @@ public class CharacterManager : MonoBehaviour
         ///Debug.Log(tagCharacter);
         activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
         controller = activeCharacter.GetComponent<CharacterController>();
+        mainCam = GameObject.Find("MainCamera").GetComponent<Camera>();
+
 
         Armstrong = new Character("Armstrong", 10, 5, 7);
         Dahy = new Character("Dahy", 5, 10, 3);
@@ -38,21 +42,21 @@ public class CharacterManager : MonoBehaviour
         switch (numberCharacter)
         {
             case 1:
-                Debug.Log("Armstrong active");
+                //Debug.Log("Armstrong active");
                 tagCharacter = "Tag_Armstrong";
                 controlArmstrong = true;
                 controlDahy = false;
                 controlDexter = false;
                 break;
             case 2:
-                Debug.Log("Dahy active");
+                //Debug.Log("Dahy active");
                 tagCharacter = "Tag_Dahy";
                 controlArmstrong = false;
                 controlDahy = true;
                 controlDexter = false;
                 break;
             case 3:
-                Debug.Log("Dexter active");
+                //Debug.Log("Dexter active");
                 tagCharacter = "Tag_Dexter";
                 controlArmstrong = false;
                 controlDahy = false;
@@ -62,6 +66,10 @@ public class CharacterManager : MonoBehaviour
 
         activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
         controller = activeCharacter.GetComponent<CharacterController>();
+
+        Debug.Log(activeCharacter.name);
+
+        mainCam.transform.SetParent(activeCharacter.transform);
 
         //Input
         float ADinput = Input.GetAxis("Horizontal");
@@ -76,6 +84,7 @@ public class CharacterManager : MonoBehaviour
 
         controller.Move(moving);
         controller.transform.Rotate(turning);
+
     }
 
     /*Getting the input from alphanumeric or kepad*/
@@ -85,5 +94,10 @@ public class CharacterManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)) { return numberCharacter = 2; }
         else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)) { return numberCharacter = 3; }
         else { return numberCharacter; }
+    }
+
+    public Vector3 actCharPosGet()
+    {
+        return activeCharacter.transform.position;
     }
 }
