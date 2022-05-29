@@ -5,34 +5,39 @@ using UnityEngine;
 public class CharacterManager : MonoBehaviour
 {
     public GameObject activeCharacter;
-    int numberCharacter = 1;
-    string tagCharacter = "Tag_Armstrong";
-
-    public bool controlArmstrong = false;
-    public bool controlDahy = false;
-    public bool controlDexter = false;
-
+    public CharacterController controller;
     public Camera mainCam;
 
     Character Armstrong;
     Character Dahy;
     Character Dexter;
 
-    public CharacterController controller;
+    int numberCharacter = 1;
+    string tagCharacter = "Tag_Armstrong";
+
+    public bool controlArmstrong    = false;
+    public bool controlDahy         = false;
+    public bool controlDexter       = false;
+
     float characterRotation = 0f;
 
-    // Start is called before the first frame update
-    void Start()
+    float WSinput;
+    float ADinput;
+
+    Vector3 turning;
+    Vector3 moving;
+
+    private void Awake()
     {
-        ///Debug.Log(tagCharacter);
         activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
         controller = activeCharacter.GetComponent<CharacterController>();
         mainCam = GameObject.Find("MainCamera").GetComponent<Camera>();
-
-
-        Armstrong = new Character("Armstrong", 10, 5, 7);
-        Dahy = new Character("Dahy", 5, 10, 3);
-        Dexter = new Character("Dexter", 7, 5, 10);
+    }
+    void Start()
+    {
+        Armstrong   = new Character("Armstrong", 10, 5, 7);
+        Dahy        = new Character("Dahy", 5, 10, 3);
+        Dexter      = new Character("Dexter", 7, 5, 10);
     }
 
     // Update is called once per frame
@@ -66,31 +71,27 @@ public class CharacterManager : MonoBehaviour
 
         activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
         controller = activeCharacter.GetComponent<CharacterController>();
-
-        Debug.Log(activeCharacter.name);
-
         mainCam.transform.SetParent(activeCharacter.transform);
 
         //Input
-        float ADinput = Input.GetAxis("Horizontal");
-        float WSinput = Input.GetAxis("Vertical");
+        WSinput = Input.GetAxis("Vertical");
+        ADinput = Input.GetAxis("Horizontal");
 
-        // pressing A or D turns player
+        //pressing A or D turns player
         characterRotation = ADinput;
-        Vector3 turning = new Vector3(0f, characterRotation, 0f); 
+        turning = new Vector3(0f, characterRotation, 0f); 
 
         //Character always goes forward based on the way they are facing
-        Vector3 moving = activeCharacter.transform.rotation * transform.forward * WSinput * Time.deltaTime; 
+        moving = activeCharacter.transform.rotation * transform.forward * WSinput * Time.deltaTime; 
 
         controller.Move(moving);
         controller.transform.Rotate(turning);
-
     }
 
     /*Getting the input from alphanumeric or kepad*/
     int numCharSet() 
     {
-        if      (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) { return numberCharacter = 1; }
+             if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) { return numberCharacter = 1; }
         else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)) { return numberCharacter = 2; }
         else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)) { return numberCharacter = 3; }
         else { return numberCharacter; }
