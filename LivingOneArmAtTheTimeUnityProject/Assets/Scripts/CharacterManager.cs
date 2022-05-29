@@ -38,12 +38,16 @@ public class CharacterManager : MonoBehaviour
         activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
         controller = activeCharacter.GetComponent<CharacterController>();
         mainCam = GameObject.Find("MainCamera").GetComponent<Camera>();
+
+        Armstrong   = new Character("Armstrong", 10, 5, 7);
+        Dahy        = new Character("Dahy", 1, 10, 3);
+        Dexter      = new Character("Dexter", 7, 5, 10);
+
+        activeSpeedStaminaStrength = new float [3] { Armstrong.speedGet(), Armstrong.staminaGet(), Armstrong.strengthGet()};
     }
     void Start()
     {
-        Armstrong   = new Character("Armstrong", 10, 5, 7);
-        Dahy        = new Character("Dahy", 5, 10, 3);
-        Dexter      = new Character("Dexter", 7, 5, 10);
+
     }
 
     // Update is called once per frame
@@ -78,27 +82,17 @@ public class CharacterManager : MonoBehaviour
                 controlDexter = true;
                 actSSSSet(Dexter);
                 //Debug.Log("Speed: " + activeSpeedStaminaStrength[0] + ", Stamina " + activeSpeedStaminaStrength[1] + ", Strength: " + activeSpeedStaminaStrength[2]);
+                //Debug.Log("Speed: " + actSSSGet()[0] + ", Stamina " + actSSSGet()[1] + ", Strength: " + actSSSGet()[2]);
                 break;
         }
 
         activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
         controller = activeCharacter.GetComponent<CharacterController>();
-        mainCam.transform.SetParent(activeCharacter.transform);
+        mainCam.transform.SetParent(activeCharacter.transform); 
+        
+        // LOOK UP ON LINE ABOVE = CHANGE ITEMS PARENT TO THE EMPTY TRANSFORM OBJECT ALREADY ATTACHED TO PLAYER'S (HAND, LAP ETC), THEN CHANGE POSITION OF PICKED ITEM TO (0,0,0,) TO BE IN CENTER 
 
-        //Input
-        WSinput = Input.GetAxis("Vertical");
-        ADinput = Input.GetAxis("Horizontal");
-
-        //pressing A or D turns player
-        characterRotation = ADinput;
-        turning = new Vector3(0f, characterRotation, 0f); 
-
-        //Character always goes forward based on the way they are facing
-        moving = activeCharacter.transform.rotation * transform.forward * WSinput * Time.deltaTime; 
-
-        controller.Move(moving);
-        controller.transform.Rotate(turning);
-
+        characterMove();
     }
 
     /*Getting the input from alphanumeric or kepad*/
@@ -123,10 +117,6 @@ public class CharacterManager : MonoBehaviour
         activeStrength = character.strengthGet();
         
         float[] actSSS = {activeSpeed, activeStamina, activeStrength};
-
-        //Causes some stupid error, just comment it out
-        //Array.Clear(activeSpeedStaminaStrength, 0, activeSpeedStaminaStrength.Length); // emptying extising array
-
         activeSpeedStaminaStrength = actSSS;
 
         return activeSpeedStaminaStrength;
@@ -136,5 +126,23 @@ public class CharacterManager : MonoBehaviour
     public float[] actSSSGet()
     {
         return activeSpeedStaminaStrength;
+    }
+
+    void characterMove() 
+    {
+        //Input
+        WSinput = Input.GetAxis("Vertical");
+        ADinput = Input.GetAxis("Horizontal");
+
+        //pressing A or D turns player
+        characterRotation = ADinput;
+        turning = new Vector3(0f, characterRotation, 0f);
+
+        //Character always goes forward based on the way they are facing
+        //NEED TO UPDATE THIS SO IT TAKES THE SPEED, AND INCREASES TO IT.
+        moving = activeCharacter.transform.rotation * transform.forward * WSinput * actSSSGet()[0] * Time.deltaTime;
+
+        controller.Move(moving);
+        controller.transform.Rotate(turning);
     }
 }
