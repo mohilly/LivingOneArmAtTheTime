@@ -8,6 +8,12 @@ TagManager:
   - Tag_Dahy
   - Tag_Dexter
   - Tag_Character
+  - Tag_ItemMainArmstrong
+  - Tag_ItemMainDahy
+  - Tag_ItemMainDexter
+  - Tag_ItemSpacedArmstrong
+  - Tag_ItemSpacedDahy
+  - Tag_ItemSpacedDexter
   layers:
   - Default
   - TransparentFX

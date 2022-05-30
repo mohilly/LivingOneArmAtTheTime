@@ -5,9 +5,8 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-   // AAAHHH THIS DOESN'T WORK
-   public GameObject characters;
-   public CharacterManager characterManager;
+    public GameObject characters;
+    public CharacterManager characterManager;
 
     public TMP_Text txt_speedNum;
     public TMP_Text txt_staminaNum;
@@ -18,7 +17,7 @@ public class UIManager : MonoBehaviour
     float speedUI = 0f;
     float staminaUI = 0f;
     float strengthUI = 0f;
-    float balanceUI = 0f;
+    float balanceUI = 10f;
     int itemsUI = 0;
 
     //public TMP_Text txt_speedNumCur;
@@ -28,7 +27,6 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     { 
-        // AAAHHH THIS DOESN'T WORK!!!!!
         characters = GameObject.FindGameObjectWithTag("Tag_Character");
         characterManager = characters.GetComponent<CharacterManager>();
     }
@@ -42,7 +40,7 @@ public class UIManager : MonoBehaviour
         speedUI    = characterManager.actSSSGet()[0];
         staminaUI  = characterManager.actSSSGet()[1];
         strengthUI = characterManager.actSSSGet()[2];
-        
+
         //changing text on the UI
         txt_speedNum.text    = speedUI.ToString();
         txt_staminaNum.text  = staminaUI.ToString();
@@ -50,9 +48,9 @@ public class UIManager : MonoBehaviour
         
         //Need to update this values according to Character Manager
         txt_balanceNum.text = balanceUI.ToString();
-        txt_strengthNum.text = itemsUI.ToString();
+        txt_strengthNum.text = strengthUI.ToString();
 
-        txt_staminaNumCur.text = strengthUI.ToString();
+        txt_staminaNumCur.text = staminaUI.ToString();
         txt_balanceNumCur.text = balanceUI.ToString();
     }
 

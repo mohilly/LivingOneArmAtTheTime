@@ -17,6 +17,8 @@ public class CharacterManager : MonoBehaviour
 
     int numberCharacter = 1;
     public string tagCharacter = "Tag_Armstrong";
+    public string tagItemMain = "Tag_ItemMainArmstrong";
+    public string tagItemSpaced = "Tag_ItemSpacedArmstrong";
 
     public bool controlArmstrong = false;
     public bool controlDahy = false;
@@ -60,7 +62,16 @@ public class CharacterManager : MonoBehaviour
     private Vector3 gravityDirection;
     private Vector3 gravityMovement;
     #endregion
+    #region - Items -
+    [Header("Items")]
+    public Transform ItemDestinationMain;
+    public Transform ItemDestinationSpaced;
 
+    public bool canCarryItems = true;
+    public bool itemMainCarry = false;
+    public bool itemSpacedCarry = false;
+
+    #endregion
     private void Awake()
     {
         characterActiveSet();
@@ -84,17 +95,19 @@ public class CharacterManager : MonoBehaviour
     {
         numCharSet();
         characterSwitch();
-        if (switching) { currentStamina = actSSSGet()[1]; switching = false;}
+        if (switching) { currentStamina = actSSSGet()[1]; switching = false; }
 
         characterActiveSet();
         mainCam.transform.SetParent(activeCharacter.transform);
 
         // LOOK UP ON LINE ABOVE = CHANGE ITEMS PARENT TO THE EMPTY TRANSFORM OBJECT ALREADY ATTACHED TO PLAYER'S (HAND, LAP ETC), THEN CHANGE POSITION OF PICKED ITEM TO (0,0,0,) TO BE IN CENTER 
-        
+
         calculateGravity();
         characterMove();
         characterStamina();
-        
+
+        if(Input.GetKeyDown(KeyCode.Escape)) { } //make sure to add EXITING OF THE GAME AND TERMINATING THE PROGRAM
+
     }
 
     #region - Active Character - 
@@ -114,6 +127,8 @@ public class CharacterManager : MonoBehaviour
             case 1:
                 //Debug.Log("Armstrong active");
                 tagCharacter = "Tag_Armstrong";
+                tagItemMain = "Tag_ItemMainArmstrong";
+                tagItemSpaced = "Tag_ItemSpacedArmstrong";
                 controlArmstrong = true;
                 controlDahy = false;
                 controlDexter = false;
@@ -123,6 +138,8 @@ public class CharacterManager : MonoBehaviour
             case 2:
                 //Debug.Log("Dahy active");
                 tagCharacter = "Tag_Dahy";
+                tagItemMain = "Tag_ItemMainDahy";
+                tagItemSpaced = "Tag_ItemSpacedDahy";
                 controlArmstrong = false;
                 controlDahy = true;
                 controlDexter = false;
@@ -132,6 +149,8 @@ public class CharacterManager : MonoBehaviour
             case 3:
                 //Debug.Log("Dexter active");
                 tagCharacter = "Tag_Dexter";
+                tagItemMain = "Tag_ItemMainDexter";
+                tagItemSpaced = "Tag_ItemSpacedDexter";
                 controlArmstrong = false;
                 controlDahy = false;
                 controlDexter = true;
@@ -154,15 +173,15 @@ public class CharacterManager : MonoBehaviour
     }
     #endregion
 
-    #region - Speed, Stamina, Strength -
+    #region - SETUP of Speed, Stamina, Strength -
     //Setting the Speed, Stamina and Strength of an active character
     public float[] actSSSSet(Character character)
     {
         activeSpeed = character.speedGet();
         activeStamina = character.staminaGet();
         activeStrength = character.strengthGet();
-        
-        float[] actSSS = {activeSpeed, activeStamina, activeStrength};
+
+        float[] actSSS = { activeSpeed, activeStamina, activeStrength };
         activeSpeedStaminaStrength = actSSS;
 
         return activeSpeedStaminaStrength;
@@ -181,8 +200,8 @@ public class CharacterManager : MonoBehaviour
     }
     #endregion
 
-    #region - Action -
-    void characterMove() 
+    #region - Move, Stamina change -
+    void characterMove()
     {
         //Input
         WSinput = Input.GetAxis("Vertical");
@@ -209,7 +228,7 @@ public class CharacterManager : MonoBehaviour
         { currentStamina -= 1f * Time.deltaTime; }
         else if (currentStamina <= 0)
         { currentStamina = 0; }
-        Debug.Log(currentStamina);
+        //Debug.Log(currentStamina);
     }
 
     void characterStaminaIncrease()
@@ -218,7 +237,7 @@ public class CharacterManager : MonoBehaviour
         { currentStamina += 1f * Time.deltaTime; }
         if (currentStamina > actSSSGet()[1])
         { currentStamina = actSSSGet()[1]; }
-        Debug.Log("Increasing stamina to " + currentStamina);
+        //Debug.Log("Increasing stamina to " + currentStamina);
     }
     #endregion
 
@@ -227,15 +246,15 @@ public class CharacterManager : MonoBehaviour
     {
         return controller.isGrounded;
     }
-    private void calculateGravity ()
+    private void calculateGravity()
     {
-        if(isGrounded())
+        if (isGrounded())
         {
             currentGravity = constantGravity;
         }
         else
         {
-            if(currentGravity > maxGravity)
+            if (currentGravity > maxGravity)
             {
                 currentGravity -= gravity * Time.deltaTime;
             }
@@ -244,4 +263,6 @@ public class CharacterManager : MonoBehaviour
         gravityMovement = gravityDirection * -currentGravity; //holding direction
     }
     #endregion
+
+   
 }
