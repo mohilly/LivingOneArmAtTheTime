@@ -23,7 +23,7 @@ public class Interactable : MonoBehaviour
     #region - Items - 
     public void itemCarry()
     {
-        if (characterManager.itemMainCarry && characterManager.itemMainCarry) { characterManager.canCarryItems = false; } //if character has both slots filled with items then they cannot carry more
+        if (characterManager.itemMainCarry && characterManager.itemSpacedCarry) { characterManager.canCarryItems = false; } //if character has both slots filled with items then they cannot carry more
         else { characterManager.canCarryItems = true; } //if any of these or if both are false, then player can carry more items
 
         if (characterManager.canCarryItems)
@@ -32,7 +32,7 @@ public class Interactable : MonoBehaviour
             {
                 //CREATE VISUAL TEXT TO SAY PLAYER NEEDS TO SPACE ITEMS
             }
-            else if (characterManager.itemMainCarry && !characterManager.itemSpacedCarry)
+            else if ((!characterManager.itemMainCarry && characterManager.itemSpacedCarry) || (!characterManager.itemMainCarry && !characterManager.itemSpacedCarry))
             {
                 //then player can pick up stuff
                 OnMouseDown();

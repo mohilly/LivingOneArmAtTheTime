@@ -84,10 +84,16 @@ public class CharacterManager : MonoBehaviour
         activeSpeedStaminaStrength = new float[3] { Armstrong.speedGet(), Armstrong.staminaGet(), Armstrong.strengthGet() };
 
         gravityDirection = Vector3.down;
+
+        tagCharacter = "Tag_Armstrong";
+        tagItemMain = "Tag_ItemMainArmstrong";
+        tagItemSpaced = "Tag_ItemSpacedArmstrong";
     }
     void Start()
     {
         currentStamina = actSSSGet()[1];
+        ItemDestinationMain = GameObject.FindGameObjectWithTag(tagItemMain).transform;
+        ItemDestinationSpaced = GameObject.FindGameObjectWithTag(tagItemSpaced).transform;
     }
 
     // Update is called once per frame
@@ -108,6 +114,8 @@ public class CharacterManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Escape)) { } //make sure to add EXITING OF THE GAME AND TERMINATING THE PROGRAM
 
+        ItemDestinationMain = GameObject.FindGameObjectWithTag(tagItemMain).transform;
+        ItemDestinationSpaced = GameObject.FindGameObjectWithTag(tagItemSpaced).transform;
     }
 
     #region - Active Character - 
