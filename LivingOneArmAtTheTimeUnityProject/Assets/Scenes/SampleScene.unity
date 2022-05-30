@@ -6058,12 +6058,17 @@ MonoBehaviour:
   controlArmstrong: 0
   controlDahy: 0
   controlDexter: 0
+  switching: 0
   isMoving: 0
   isCaryingItem: 0
   isSpacedItem: 0
   need2KeepBalance: 0
   currentBalance: 10
   currentStamina: 0
+  gravity: 10
+  currentGravity: 0
+  constantGravity: -0.6
+  maxGravity: -15
 --- !u!4 &1719865100
 Transform:
   m_ObjectHideFlags: 0

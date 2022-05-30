@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
+    #region - Characters -
+    [Header("Characters")]
     public GameObject activeCharacter;
     public CharacterController controller;
     public Camera mainCam;
@@ -16,42 +18,61 @@ public class CharacterManager : MonoBehaviour
     int numberCharacter = 1;
     public string tagCharacter = "Tag_Armstrong";
 
-    public bool controlArmstrong    = false;
-    public bool controlDahy         = false;
-    public bool controlDexter       = false;
+    public bool controlArmstrong = false;
+    public bool controlDahy = false;
+    public bool controlDexter = false;
 
     float characterRotation = 0f;
+    public bool switching = false;
 
+    #endregion
+    #region - Movement input floats and vectors - 
+    [Header("Movement")]
     float WSinput;
     float ADinput;
 
     Vector3 turning;
     Vector3 moving;
-
+    #endregion
+    #region - Speed, Stamina, Strength -
+    [Header("3S")]
     float[] activeSpeedStaminaStrength;
     float activeSpeed;
     float activeStamina;
     float activeStrength;
-
-    public bool isMoving          = false;
-    public bool isCaryingItem     = false;
-    public bool isSpacedItem      = false; // second position of the item that imapcts the balance
-    public bool need2KeepBalance  = false; // false by default, triggered by certain types of action
-    public float currentBalance   = 10;
+    #endregion
+    #region - Action -
+    [Header("Action")]
+    public bool isMoving = false;
+    public bool isCaryingItem = false;
+    public bool isSpacedItem = false; // second position of the item that imapcts the balance
+    public bool need2KeepBalance = false; // false by default, triggered by certain types of action
+    public float currentBalance = 10;
     public float currentStamina;
+    #endregion
+    #region - Gravity - 
+    [Header("Gravity")]
+    public float gravity;
+    public float currentGravity;
+    public float constantGravity;
+    public float maxGravity;
 
+    private Vector3 gravityDirection;
+    private Vector3 gravityMovement;
+    #endregion
 
     private void Awake()
     {
-        activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
-        controller = activeCharacter.GetComponent<CharacterController>();
+        characterActiveSet();
         mainCam = GameObject.Find("MainCamera").GetComponent<Camera>();
 
-        Armstrong   = new Character("Armstrong", 10, 5, 7);
-        Dahy        = new Character("Dahy", 1, 10, 3);
-        Dexter      = new Character("Dexter", 7, 5, 10);
+        Armstrong = new Character("Armstrong", 7, 5, 7);
+        Dahy = new Character("Dahy", 2, 10, 3);
+        Dexter = new Character("Dexter", 5, 5, 10);
 
-        activeSpeedStaminaStrength = new float [3] { Armstrong.speedGet(), Armstrong.staminaGet(), Armstrong.strengthGet()};
+        activeSpeedStaminaStrength = new float[3] { Armstrong.speedGet(), Armstrong.staminaGet(), Armstrong.strengthGet() };
+
+        gravityDirection = Vector3.down;
     }
     void Start()
     {
@@ -62,6 +83,32 @@ public class CharacterManager : MonoBehaviour
     void Update()
     {
         numCharSet();
+        characterSwitch();
+        if (switching) { currentStamina = actSSSGet()[1]; switching = false;}
+
+        characterActiveSet();
+        mainCam.transform.SetParent(activeCharacter.transform);
+
+        // LOOK UP ON LINE ABOVE = CHANGE ITEMS PARENT TO THE EMPTY TRANSFORM OBJECT ALREADY ATTACHED TO PLAYER'S (HAND, LAP ETC), THEN CHANGE POSITION OF PICKED ITEM TO (0,0,0,) TO BE IN CENTER 
+        
+        calculateGravity();
+        characterMove();
+        characterStamina();
+        
+    }
+
+    #region - Active Character - 
+    /*Getting the input from alphanumeric or kepad*/
+    int numCharSet()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) { switching = true; return numberCharacter = 1; }
+        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)) { switching = true; return numberCharacter = 2; }
+        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)) { switching = true; return numberCharacter = 3; }
+        else { return numberCharacter; }
+    }
+
+    public void characterSwitch()
+    {
         switch (numberCharacter)
         {
             case 1:
@@ -93,25 +140,6 @@ public class CharacterManager : MonoBehaviour
                 //Debug.Log("Speed: " + actSSSGet()[0] + ", Stamina " + actSSSGet()[1] + ", Strength: " + actSSSGet()[2]);
                 break;
         }
-
-        activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
-        controller = activeCharacter.GetComponent<CharacterController>();
-        mainCam.transform.SetParent(activeCharacter.transform); 
-        
-        // LOOK UP ON LINE ABOVE = CHANGE ITEMS PARENT TO THE EMPTY TRANSFORM OBJECT ALREADY ATTACHED TO PLAYER'S (HAND, LAP ETC), THEN CHANGE POSITION OF PICKED ITEM TO (0,0,0,) TO BE IN CENTER 
-
-        characterMove();
-        if(isMoving) { characterStaminaDecrease(); } 
-        else if (!isMoving){ characterStaminaIncrease(); }
-    }
-
-    /*Getting the input from alphanumeric or kepad*/
-    int numCharSet() 
-    {
-             if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1)) { return numberCharacter = 1; }
-        else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2)) { return numberCharacter = 2; }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3)) { return numberCharacter = 3; }
-        else { return numberCharacter; }
     }
 
     public Vector3 actCharPosGet()
@@ -119,6 +147,14 @@ public class CharacterManager : MonoBehaviour
         return activeCharacter.transform.position;
     }
 
+    public void characterActiveSet()
+    {
+        activeCharacter = GameObject.FindGameObjectWithTag(tagCharacter);
+        controller = activeCharacter.GetComponent<CharacterController>();
+    }
+    #endregion
+
+    #region - Speed, Stamina, Strength -
     //Setting the Speed, Stamina and Strength of an active character
     public float[] actSSSSet(Character character)
     {
@@ -138,6 +174,14 @@ public class CharacterManager : MonoBehaviour
         return activeSpeedStaminaStrength;
     }
 
+    public void characterStamina()
+    {
+        if (isMoving) { characterStaminaDecrease(); }
+        else if (!isMoving) { characterStaminaIncrease(); }
+    }
+    #endregion
+
+    #region - Action -
     void characterMove() 
     {
         //Input
@@ -155,7 +199,7 @@ public class CharacterManager : MonoBehaviour
         if (WSinput != 0) { isMoving = true; } // Debug.Log("Character is moving");  confirmed it works
         else { isMoving = false; } // Debug.Log("Character is still")confirmed it works
 
-        controller.Move(moving);
+        controller.Move(moving + gravityMovement);
         controller.transform.Rotate(turning);
     }
 
@@ -176,4 +220,28 @@ public class CharacterManager : MonoBehaviour
         { currentStamina = actSSSGet()[1]; }
         Debug.Log("Increasing stamina to " + currentStamina);
     }
+    #endregion
+
+    #region - Gravity - 
+    private bool isGrounded()
+    {
+        return controller.isGrounded;
+    }
+    private void calculateGravity ()
+    {
+        if(isGrounded())
+        {
+            currentGravity = constantGravity;
+        }
+        else
+        {
+            if(currentGravity > maxGravity)
+            {
+                currentGravity -= gravity * Time.deltaTime;
+            }
+        }
+
+        gravityMovement = gravityDirection * -currentGravity; //holding direction
+    }
+    #endregion
 }
