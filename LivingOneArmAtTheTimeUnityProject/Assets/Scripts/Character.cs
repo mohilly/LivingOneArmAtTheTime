@@ -15,7 +15,10 @@ public class Character {
     [Header("Balance")]
     public float balance = 10; //0-10, if under 5 then character has a bigger chance to fall or drop items // MAYBE PUT 0-1
 
-
+    [Header("Carry")]
+    public bool canCarryItems = true;
+    public bool itemMainCarry = false;
+    public bool itemSpacedCarry = false;
     //-----------------------------------------------------------------------//
 
     //default constructor for person without disability 
@@ -43,30 +46,37 @@ public class Character {
     }
 
     //Setters
-    public string nameSet(string _Name)
+    public void nameSet(string _Name)
     {
         name = _Name;
-        return name;
     }
-    public float speedSet(float _Speed)
+    public void speedSet(float _Speed)
     {
         speed = _Speed;
-        return speed;
     }
-    public float staminaSet(float _Stamina)
+    public void staminaSet(float _Stamina)
     {
         stamina = _Stamina;
-        return stamina;
     }
-    public float strengthSet(float _Strength)
+    public void strengthSet(float _Strength)
     {
         strength = _Strength;
-        return strength;
     }
-    public float balanceSet(float _Balance)
+    public void balanceSet(float _Balance)
     {
         balance = _Balance;
-        return balance;
+    }    
+    public void canCarryItemsSet(bool _canCarryItems)
+    {
+        canCarryItems = _canCarryItems;
+    }   
+    public void itemMainCarrySet(bool _itemMainCarry)
+    {
+        itemMainCarry = _itemMainCarry;
+    }
+    public void itemSpacedCarrySet(bool _itemSpacedCarry)
+    {
+        itemSpacedCarry = _itemSpacedCarry;
     }
 
     //Getters
@@ -90,7 +100,18 @@ public class Character {
     {
         return balance;
     }
-
+    public bool canCarryItemsGet()
+    {
+        return canCarryItems;
+    }
+    public bool itemMainCarryGet()
+    {
+        return itemMainCarry;
+    }
+    public bool itemSpacedCarryGet()
+    {
+        return itemSpacedCarry;
+    }
     //Deconstructor
     ~Character(){}
 }

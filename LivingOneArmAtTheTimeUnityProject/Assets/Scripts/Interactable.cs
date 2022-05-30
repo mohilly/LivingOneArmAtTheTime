@@ -7,6 +7,10 @@ public class Interactable : MonoBehaviour
     public GameObject characters;
     public CharacterManager characterManager;
 
+    public bool canCarryItemsCurrently = true;
+    public bool itemMainCarryCurrently = false;
+    public bool itemSpacedCarryCurrently = false;
+
     private void Awake()
     {
         characters = GameObject.FindGameObjectWithTag("Tag_Character");
@@ -17,6 +21,9 @@ public class Interactable : MonoBehaviour
     {
         //switching between main and spaced item
         if (Input.GetKeyDown(KeyCode.Space)) { itemSpace(); }
+        itemCarry();
+        OnMouseDown();
+        OnMouseUp();
     }
 
     //THIS CODE NEEDS TO BE IN A SPECIAL SCRIPT ATTACHED TO INTERACTABLE OBJECTS OK
@@ -35,7 +42,7 @@ public class Interactable : MonoBehaviour
             else if ((!characterManager.itemMainCarry && characterManager.itemSpacedCarry) || (!characterManager.itemMainCarry && !characterManager.itemSpacedCarry))
             {
                 //then player can pick up stuff
-                OnMouseDown();
+                
             }
         }
         else
@@ -87,13 +94,20 @@ public class Interactable : MonoBehaviour
             } else if (characterManager.itemMainCarry)
             {
                 //TELL PLAYER TO SPACE
+                //Debug.Log("Already carrying an item in main hand"); // Works!
             }
+            //Debug.Log("Left click pressed"); //WORKS
         }
 
+    }
+
+    public void OnMouseUp()
+    {
         //By pressing right click character drops items from MAIN ONLY
-        if  (Input.GetMouseButtonDown(1))
+        if  (Input.GetMouseButtonUp(1))
         {
-            if (this.transform.parent == GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform)
+            //if (this.transform.parent == GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform)
+            if (characterManager.itemMainCarry)
             {
                 this.transform.parent = null; // removing parent
                 GetComponent<Rigidbody>().useGravity = true;
@@ -104,6 +118,7 @@ public class Interactable : MonoBehaviour
                 }
                 characterManager.itemMainCarry = false;
             }
+            Debug.Log("Right click pressed");
         }
     }
     #endregion

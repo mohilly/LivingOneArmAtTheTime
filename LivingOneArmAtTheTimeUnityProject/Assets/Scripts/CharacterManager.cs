@@ -71,6 +71,8 @@ public class CharacterManager : MonoBehaviour
     public bool itemMainCarry = false;
     public bool itemSpacedCarry = false;
 
+    public bool[] itemCarryArr;
+
     #endregion
     private void Awake()
     {
@@ -81,22 +83,26 @@ public class CharacterManager : MonoBehaviour
         Dahy = new Character("Dahy", 2, 10, 3);
         Dexter = new Character("Dexter", 5, 5, 10);
 
-        activeSpeedStaminaStrength = new float[3] { Armstrong.speedGet(), Armstrong.staminaGet(), Armstrong.strengthGet() };
-
         gravityDirection = Vector3.down;
 
         tagCharacter = "Tag_Armstrong";
+        //ASK YOURSELF, DO I NEED THIS SHIT
         tagItemMain = "Tag_ItemMainArmstrong";
         tagItemSpaced = "Tag_ItemSpacedArmstrong";
+
+        actSSSSet(Armstrong);
+        actCMSSet(Armstrong);
+
+        //activeSpeedStaminaStrength = new float[3] { Armstrong.speedGet(), Armstrong.staminaGet(), Armstrong.strengthGet() };
+        //itemCarryArr = new bool[3] { canCarryItems, itemMainCarry, itemSpacedCarry };
     }
+
     void Start()
     {
         currentStamina = actSSSGet()[1];
         ItemDestinationMain = GameObject.FindGameObjectWithTag(tagItemMain).transform;
         ItemDestinationSpaced = GameObject.FindGameObjectWithTag(tagItemSpaced).transform;
     }
-
-    // Update is called once per frame
     void Update()
     {
         numCharSet();
@@ -114,6 +120,7 @@ public class CharacterManager : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Escape)) { } //make sure to add EXITING OF THE GAME AND TERMINATING THE PROGRAM
 
+        //DOES THIS ITEM DESTINATION MUST BE HERE? LIKE IN THAT WAY, OR SHOULD WE SET IT IN A FUNCTION THAT IS BEING CALLED?
         ItemDestinationMain = GameObject.FindGameObjectWithTag(tagItemMain).transform;
         ItemDestinationSpaced = GameObject.FindGameObjectWithTag(tagItemSpaced).transform;
     }
@@ -133,7 +140,6 @@ public class CharacterManager : MonoBehaviour
         switch (numberCharacter)
         {
             case 1:
-                //Debug.Log("Armstrong active");
                 tagCharacter = "Tag_Armstrong";
                 tagItemMain = "Tag_ItemMainArmstrong";
                 tagItemSpaced = "Tag_ItemSpacedArmstrong";
@@ -141,10 +147,9 @@ public class CharacterManager : MonoBehaviour
                 controlDahy = false;
                 controlDexter = false;
                 actSSSSet(Armstrong);
-                //Debug.Log("Speed: " + activeSpeedStaminaStrength[0] + ", Stamina " + activeSpeedStaminaStrength[1] + ", Strength: " + activeSpeedStaminaStrength[2]);
+                actCMSSet(Armstrong);
                 break;
             case 2:
-                //Debug.Log("Dahy active");
                 tagCharacter = "Tag_Dahy";
                 tagItemMain = "Tag_ItemMainDahy";
                 tagItemSpaced = "Tag_ItemSpacedDahy";
@@ -152,10 +157,9 @@ public class CharacterManager : MonoBehaviour
                 controlDahy = true;
                 controlDexter = false;
                 actSSSSet(Dahy);
-                //Debug.Log("Speed: " + activeSpeedStaminaStrength[0] + ", Stamina " + activeSpeedStaminaStrength[1] + ", Strength: " + activeSpeedStaminaStrength[2]);
+                actCMSSet(Dahy);
                 break;
             case 3:
-                //Debug.Log("Dexter active");
                 tagCharacter = "Tag_Dexter";
                 tagItemMain = "Tag_ItemMainDexter";
                 tagItemSpaced = "Tag_ItemSpacedDexter";
@@ -163,8 +167,7 @@ public class CharacterManager : MonoBehaviour
                 controlDahy = false;
                 controlDexter = true;
                 actSSSSet(Dexter);
-                //Debug.Log("Speed: " + activeSpeedStaminaStrength[0] + ", Stamina " + activeSpeedStaminaStrength[1] + ", Strength: " + activeSpeedStaminaStrength[2]);
-                //Debug.Log("Speed: " + actSSSGet()[0] + ", Stamina " + actSSSGet()[1] + ", Strength: " + actSSSGet()[2]);
+                actCMSSet(Dexter);
                 break;
         }
     }
@@ -181,9 +184,13 @@ public class CharacterManager : MonoBehaviour
     }
     #endregion
 
-    #region - SETUP of Speed, Stamina, Strength -
-    //Setting the Speed, Stamina and Strength of an active character
-    public float[] actSSSSet(Character character)
+    #region - SETUP of Stats -
+    /// <summary>
+    /// Setting the Speed, Stamina and Strength of an active character. <br/>
+    /// Setting up floats: activeSpeed, activeStamina and activeStrength. <br/>
+    /// </summary>
+    /// <param name="character"></param>
+    public void actSSSSet(Character character)
     {
         activeSpeed = character.speedGet();
         activeStamina = character.staminaGet();
@@ -191,8 +198,6 @@ public class CharacterManager : MonoBehaviour
 
         float[] actSSS = { activeSpeed, activeStamina, activeStrength };
         activeSpeedStaminaStrength = actSSS;
-
-        return activeSpeedStaminaStrength;
     }
 
     //Getting the active Speed, Stamina and Strength
@@ -206,6 +211,28 @@ public class CharacterManager : MonoBehaviour
         if (isMoving) { characterStaminaDecrease(); }
         else if (!isMoving) { characterStaminaIncrease(); }
     }
+
+    /// <summary>
+    /// Setting up bools: canCarryItems, itemMainCarry and itemSpacedCarry. <br/>
+    /// canCarryItems - can a character carry an item? <br/>
+    /// itemMainCarry - is item being carried in the main slot? <br/>
+    /// itemSpacedCarry - is item being carried in the spaced slot?
+    /// </summary>
+    /// <param name="character"></param>
+    public void actCMSSet(Character character)
+    {
+        canCarryItems = character.canCarryItemsGet();
+        itemMainCarry = character.itemMainCarryGet();
+        itemSpacedCarry = character.itemSpacedCarryGet();
+
+        bool[] actCMS = { canCarryItems, itemMainCarry, itemSpacedCarry };
+        itemCarryArr = actCMS;
+    }
+    public bool [] actCMSGet()
+    {
+        return itemCarryArr;
+    }
+
     #endregion
 
     #region - Move, Stamina change -
