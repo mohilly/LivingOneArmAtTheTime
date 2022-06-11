@@ -26,6 +26,7 @@ public class CharacterManager : MonoBehaviour
 
     float characterRotation = 0f;
     public bool switching = false;
+    
 
     #endregion
     #region - Movement input floats and vectors - 

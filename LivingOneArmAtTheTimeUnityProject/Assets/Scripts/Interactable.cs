@@ -21,6 +21,7 @@ public class Interactable : MonoBehaviour
     {
         characters = GameObject.FindGameObjectWithTag("Tag_Character");
         characterManager = characters.GetComponent<CharacterManager>();
+
     }
     private void Start()
     {
@@ -79,7 +80,7 @@ public class Interactable : MonoBehaviour
     public void OnMouseDown()
     {
         //By pressing left click character picks up items AND PUTS THEM TO MAIN ONLY
-        if (Input.GetMouseButtonDown(0) && !isBeingCarried) //Debug.Log("Pressed left click."); //IF ITEM IS NOT BEING CARRIED CURRENTLY.
+        if (Input.GetMouseButtonDown(0) && !isBeingCarried) //&& (playerCasting.toTarget <= 2)) //Debug.Log("Pressed left click."); //IF ITEM IS NOT BEING CARRIED CURRENTLY.
         {
             if (canCarryItems_i)
             {
@@ -118,9 +119,9 @@ public class Interactable : MonoBehaviour
                 this.transform.parent = null; // removing parent
                 GetComponent<Rigidbody>().useGravity = true;
                 GetComponent<BoxCollider>().enabled = true;
-                Debug.Log("Right click pressed");
-                isBeingCarried = false;
-                itemMainCarry_i = false;
+                //Debug.Log("Right click pressed"); //Works but buggy
+                actCMSSet_iM(false);
+                isBeingCarried = false;                
             }
 
             if (!itemMainCarry_i && itemSpcdCarry_i)

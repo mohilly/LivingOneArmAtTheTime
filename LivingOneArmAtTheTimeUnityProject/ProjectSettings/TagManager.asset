@@ -14,6 +14,9 @@ TagManager:
   - Tag_ItemSpacedArmstrong
   - Tag_ItemSpacedDahy
   - Tag_ItemSpacedDexter
+  - Tag_Interactable
+  - Tag_Environment
+  - Tag_OtherHierarchy
   layers:
   - Default
   - TransparentFX
