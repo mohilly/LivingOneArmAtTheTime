@@ -18,7 +18,7 @@ public class Character {
     [Header("Carry")]
     public bool canCarryItems = true;
     public bool itemMainCarry = false;
-    public bool itemSpacedCarry = false;
+    public bool itemSpcdCarry = false;
     //-----------------------------------------------------------------------//
 
     //default constructor for person without disability 
@@ -42,7 +42,12 @@ public class Character {
         stamina = _Stamina;
         strength = _Strength; // this will be conntected to the calculation of how fast balance
 
-        balance = 10;        
+        balance = 10;
+
+        //SETTING THESE WHEN CREATING A CHARACTER
+        canCarryItems = true;
+        itemMainCarry = false;
+        itemSpcdCarry = false;
     }
 
     //Setters
@@ -76,7 +81,7 @@ public class Character {
     }
     public void itemSpacedCarrySet(bool _itemSpacedCarry)
     {
-        itemSpacedCarry = _itemSpacedCarry;
+        itemSpcdCarry = _itemSpacedCarry;
     }
 
     //Getters
@@ -110,7 +115,7 @@ public class Character {
     }
     public bool itemSpacedCarryGet()
     {
-        return itemSpacedCarry;
+        return itemSpcdCarry;
     }
     //Deconstructor
     ~Character(){}

@@ -44,10 +44,10 @@ public class CharacterManager : MonoBehaviour
     float activeStrength;
     #endregion
     #region - Action -
-    [Header("Action")]
+    [Header("Carrying and Balance Action")]
     public bool isMoving = false;
-    public bool isCaryingItem = false;
-    public bool isSpacedItem = false; // second position of the item that imapcts the balance
+   
+    
     public bool need2KeepBalance = false; // false by default, triggered by certain types of action
     public float currentBalance = 10;
     public float currentStamina;
@@ -67,9 +67,16 @@ public class CharacterManager : MonoBehaviour
     public Transform ItemDestinationMain;
     public Transform ItemDestinationSpaced;
 
+    //MAYBE REDUNDANT 
+    /*
     public bool canCarryItems = true;
     public bool itemMainCarry = false;
     public bool itemSpacedCarry = false;
+    */
+    
+    public bool canCarryItems_CM = true; //current character can carry items
+    public bool itemMainCarry_CM = false; //current character is not carrying item in main position
+    public bool itemSpcdCarry_CM = false; // second position of the item that imapcts the balance, current character is not carrying item in spaced position
 
     public bool[] itemCarryArr;
 
@@ -90,6 +97,7 @@ public class CharacterManager : MonoBehaviour
         tagItemMain = "Tag_ItemMainArmstrong";
         tagItemSpaced = "Tag_ItemSpacedArmstrong";
 
+        actCMSUpdate(Armstrong);
         actSSSSet(Armstrong);
         actCMSSet(Armstrong);
 
@@ -146,6 +154,7 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = true;
                 controlDahy = false;
                 controlDexter = false;
+                actCMSUpdate(Armstrong);
                 actSSSSet(Armstrong);
                 actCMSSet(Armstrong);
                 break;
@@ -156,6 +165,7 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = false;
                 controlDahy = true;
                 controlDexter = false;
+                actCMSUpdate(Dahy);
                 actSSSSet(Dahy);
                 actCMSSet(Dahy);
                 break;
@@ -166,6 +176,7 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = false;
                 controlDahy = false;
                 controlDexter = true;
+                actCMSUpdate(Dexter);
                 actSSSSet(Dexter);
                 actCMSSet(Dexter);
                 break;
@@ -221,13 +232,50 @@ public class CharacterManager : MonoBehaviour
     /// <param name="character"></param>
     public void actCMSSet(Character character)
     {
-        canCarryItems = character.canCarryItemsGet();
-        itemMainCarry = character.itemMainCarryGet();
-        itemSpacedCarry = character.itemSpacedCarryGet();
+        canCarryItems_CM = character.canCarryItemsGet();
+        itemMainCarry_CM = character.itemMainCarryGet();
+        itemSpcdCarry_CM = character.itemSpacedCarryGet();
 
-        bool[] actCMS = { canCarryItems, itemMainCarry, itemSpacedCarry };
+        bool[] actCMS = { canCarryItems_CM, itemMainCarry_CM, itemSpcdCarry_CM };
         itemCarryArr = actCMS;
     }
+    public void actCMSUpdate(Character character)
+    {
+        character.canCarryItemsSet(canCarryItems_CM);
+        character.itemMainCarrySet(itemMainCarry_CM);
+        character.itemSpacedCarrySet(itemSpcdCarry_CM);
+
+        bool[] actCMS = { canCarryItems_CM, itemMainCarry_CM, itemSpcdCarry_CM };
+        itemCarryArr = actCMS;
+        //Debug.Log("Updating character carry bools"); // BEING CALLED
+    }
+
+    public void actCMSUpdate_CMc (bool carry)
+    {
+        canCarryItems_CM = carry;
+
+        bool actCMS_c = canCarryItems_CM;
+        itemCarryArr[0] = actCMS_c;
+    }
+
+    public void actCMSUpdate_CMm(bool main)
+    {
+        itemMainCarry_CM = main;
+
+        bool actCMS_m = itemMainCarry_CM;
+        itemCarryArr[1] = actCMS_m;
+        //Debug.Log("Updating itemMainCarry_CM"); // BEING CALLED
+        //Debug.Log(main); IT IS BEING PASSED AS TRUE
+    }
+
+    public void actCMSUpdate_CMs(bool spaced)
+    {
+        itemSpcdCarry_CM = spaced;
+
+        bool actCMS_s = itemSpcdCarry_CM;
+        itemCarryArr[2] = actCMS_s;
+    }
+
     public bool [] actCMSGet()
     {
         return itemCarryArr;

@@ -206,7 +206,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 574431967}
+    m_TransformParent: {fileID: 1965978173}
     m_Modifications:
     - target: {fileID: 100004, guid: bbb29c575e92ab64eb62ee335dc6f563, type: 3}
       propertyPath: m_Name
@@ -214,7 +214,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: bbb29c575e92ab64eb62ee335dc6f563, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: bbb29c575e92ab64eb62ee335dc6f563, type: 3}
       propertyPath: m_LocalPosition.x
@@ -254,6 +254,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: bbb29c575e92ab64eb62ee335dc6f563, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: bbb29c575e92ab64eb62ee335dc6f563, type: 3}
+      propertyPath: recordPlayerActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -334,6 +338,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characters: {fileID: 0}
   characterManager: {fileID: 0}
+  isBeingCarried: 0
+  canCarryItems_i: 1
+  itemMainCarry_i: 0
+  itemSpcdCarry_i: 0
 --- !u!65 &65559702
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1216,7 +1224,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.25
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.05
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.1, z: 0}
@@ -2281,7 +2289,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1469766239}
-  - {fileID: 96450392}
   - {fileID: 732949176}
   - {fileID: 1239831738}
   - {fileID: 1975896090}
@@ -2387,7 +2394,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.25
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.05
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.1, z: 0}
@@ -2649,7 +2656,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.25
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.05
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.1, z: 0}
@@ -2760,7 +2767,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 135543916388377024, guid: 5e630ce0b626da14cad61fbb2670f9fa, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 135543916388377024, guid: 5e630ce0b626da14cad61fbb2670f9fa, type: 3}
       propertyPath: m_LocalScale.x
@@ -2844,6 +2851,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characters: {fileID: 0}
   characterManager: {fileID: 0}
+  isBeingCarried: 0
+  canCarryItems_i: 1
+  itemMainCarry_i: 0
+  itemSpcdCarry_i: 0
 --- !u!54 &735379314
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2860,6 +2871,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &735379315
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735379309}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.47598204, y: 0.25197244, z: 0.37816817}
+  m_Center: {x: -0.000000014901161, y: 0.12621602, z: 0}
 --- !u!1001 &742345433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2918,6 +2942,10 @@ PrefabInstance:
     - target: {fileID: 64654064656532206, guid: a0589cd2fd581ef45b9dd612fff96d6e, type: 3}
       propertyPath: m_Convex
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 64654064656532206, guid: a0589cd2fd581ef45b9dd612fff96d6e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0589cd2fd581ef45b9dd612fff96d6e, type: 3}
@@ -4001,6 +4029,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characters: {fileID: 0}
   characterManager: {fileID: 0}
+  isBeingCarried: 0
+  canCarryItems_i: 1
+  itemMainCarry_i: 0
+  itemSpcdCarry_i: 0
 --- !u!65 &1095547237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4405,7 +4437,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4009615379129919053, guid: fa44f0d9a5a05314ea800e30dbcc564a, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4009615379129919053, guid: fa44f0d9a5a05314ea800e30dbcc564a, type: 3}
       propertyPath: m_LocalScale.x
@@ -6511,8 +6543,6 @@ MonoBehaviour:
   controlDexter: 0
   switching: 0
   isMoving: 0
-  isCaryingItem: 0
-  isSpacedItem: 0
   need2KeepBalance: 0
   currentBalance: 10
   currentStamina: 0
@@ -6522,9 +6552,10 @@ MonoBehaviour:
   maxGravity: -15
   ItemDestinationMain: {fileID: 0}
   ItemDestinationSpaced: {fileID: 0}
-  canCarryItems: 1
-  itemMainCarry: 0
-  itemSpacedCarry: 0
+  canCarryItems_CM: 1
+  itemMainCarry_CM: 0
+  itemSpcdCarry_CM: 0
+  itemCarryArr: 
 --- !u!4 &1719865100
 Transform:
   m_ObjectHideFlags: 0
@@ -6561,6 +6592,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characters: {fileID: 0}
   characterManager: {fileID: 0}
+  isBeingCarried: 0
+  canCarryItems_i: 1
+  itemMainCarry_i: 0
+  itemSpcdCarry_i: 0
 --- !u!65 &1724741226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7052,6 +7087,7 @@ Transform:
   - {fileID: 610208506}
   - {fileID: 284382855}
   - {fileID: 146671863}
+  - {fileID: 96450392}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7073,7 +7109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 733826561993087827, guid: acdd9e23c1c235846940d49e0758aa23, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 733826561993087827, guid: acdd9e23c1c235846940d49e0758aa23, type: 3}
       propertyPath: m_LocalScale.x
