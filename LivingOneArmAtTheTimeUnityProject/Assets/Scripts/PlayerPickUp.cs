@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Interactable : MonoBehaviour
+public class PlayerPickUp : MonoBehaviour
 {
     public GameObject characters;
     public CharacterManager characterManager;
@@ -19,6 +19,15 @@ public class Interactable : MonoBehaviour
 
     public TMP_Text txt_warning;
 
+
+
+    public Transform mainhand;
+    public Transform spacedhand;
+
+    public GameObject mainItemHeld;
+    public GameObject spacedItemHeld;
+
+
     private void Awake()
     {
         characters = GameObject.FindGameObjectWithTag("Tag_Character");
@@ -26,6 +35,8 @@ public class Interactable : MonoBehaviour
 
         txt_warning = GameObject.Find("Text (TMP) Ingame Warning").GetComponent<TMP_Text>();
     }
+
+
     private void Start()
     {
         Debug.Log(characterManager.itemCarryArrGet()[0]);
@@ -35,16 +46,13 @@ public class Interactable : MonoBehaviour
     {
         actCMSGet_i(characterManager); //fetching currently active stats for Carry Bools
 
-        if (Input.GetKeyDown(KeyCode.Space)) 
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             itemSpace();
         }
 
         itemCarry();
-       // if (itemMainCarry_i) { actCMSSet_iM(true); } else { actCMSSet_iM(false); }
-       // if (itemSpcdCarry_i) { actCMSSet_iS(true); } else { actCMSSet_iS(false); }
         OnMouseDown();
-        
     }
     //THIS CODE NEEDS TO BE IN A SPECIAL SCRIPT ATTACHED TO INTERACTABLE OBJECTS OK
     //IS THIS EVEN NECESSARY
@@ -60,34 +68,31 @@ public class Interactable : MonoBehaviour
     public void itemSpace()
     {
 
-       /* GameObject heldMain = null;
-        GameObject heldSpaced = null;
-
-        Transform mainHand = characterManager.ItemDestinationMain;
-        Transform spacedHand = characterManager.ItemDestinationSpaced;
-
-
         if (itemMainCarry_i)
         {
-            heldMain = characterManager.ItemDestinationMain.GetChild(0).gameObject;
+            spacedItemHeld.transform.SetParent(characterManager.ItemDestinationSpaced);
+            spacedItemHeld.transform.position = Vector3.zero;
         }
-        if (itemSpcdCarry_i)
+
+        else if (itemSpcdCarry_i)
         {
-            heldSpaced = characterManager.ItemDestinationSpaced.GetChild(0).gameObject;
+            spacedItemHeld.transform.SetParent(characterManager.ItemDestinationMain);
+            spacedItemHeld.transform.position = Vector3.zero;
         }
-       */
+
+
+
 
         if (itemMainCarry_i || itemSpcdCarry_i)
-        { 
+        {
             if (this.transform.parent == GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform)
             {
                 GetComponent<Rigidbody>().useGravity = false; // making sure the object character picks up does not fall
                 this.transform.position = characterManager.ItemDestinationSpaced.position;
                 this.transform.parent = GameObject.FindGameObjectWithTag(characterManager.tagItemSpaced).transform;
                 this.transform.localPosition = new Vector3(0, 0, 0); // WANTED TO RESET THE POSITION TO 0,0,0 SO IT IS IN THE DEAD CENTER OF THAT POSITION //no work
-
-
-
+                actCMSSet_iS(true);
+                actCMSSet_iM(false);
             }
             else if (this.transform.parent == GameObject.FindGameObjectWithTag(characterManager.tagItemSpaced).transform)
             {
@@ -95,29 +100,11 @@ public class Interactable : MonoBehaviour
                 this.transform.position = characterManager.ItemDestinationMain.position;
                 this.transform.parent = GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform;
                 this.transform.localPosition = new Vector3(0, 0, 0); // WANTED TO RESET THE POSITION TO 0,0,0 SO IT IS IN THE DEAD CENTER OF THAT POSITION // no work
-                
-                
 
-            }
-
-
-            if ((itemMainCarry_i && !itemSpcdCarry_i) || (itemSpcdCarry_i && !itemMainCarry_i))
-            {
-                actCMSSet_iM(!itemMainCarry_i);
-                actCMSSet_iS(!itemSpcdCarry_i);
-                //itemMainCarry_i = !itemMainCarry_i;
-                //itemSpcdCarry_i = !itemSpcdCarry_i;
-            }
-            else if (itemMainCarry_i && itemSpcdCarry_i)
-            {
                 actCMSSet_iM(true);
-                actCMSSet_iS(true);
-
+                actCMSSet_iS(false);
             }
-
         }
-
-
         if (!itemMainCarry_i && !itemSpcdCarry_i)
         {
             //do nothing
@@ -128,6 +115,7 @@ public class Interactable : MonoBehaviour
     {
         //function to place an object down from MAIN slot
     }
+
     #endregion
 
     public void OnMouseDown()
@@ -162,39 +150,19 @@ public class Interactable : MonoBehaviour
         if (Input.GetMouseButtonUp(1))
         {
             //if (this.transform.parent == GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform)
-            if (itemMainCarry_i) // if item is in the main carry slot AND if this item is at the currently active destination
+            if (itemMainCarry_i && (this.transform.position == characterManager.ItemDestinationMain.position)) // if item is in the main carry slot AND if this item is at the currently active destination
             {
-                if (this.transform.position == characterManager.ItemDestinationMain.position)
-                {
-                    this.transform.parent = null; // removing parent
-                    GetComponent<Rigidbody>().useGravity = true;
-                    GetComponent<BoxCollider>().enabled = true;
-                    actCMSSet_iM(false);
-                    isBeingCarried = false;
-                    txt_warning.text = "I have dropped the item.";
-                }
-                else if (this.transform.position == characterManager.ItemDestinationSpaced.position)
-                {
-                    isBeingCarried = true;
-                    txt_warning.text = "I have item in spaced slot";
-                }
-
-                /*
-                if (!itemMainCarry_i && itemSpcdCarry_i)
-                {
-                    txt_warning.text = "I cannot remove the item from secondary slot. I need to switch its position first. Press [SPACE]";
-                }*/
+                this.transform.parent = null; // removing parent
+                GetComponent<Rigidbody>().useGravity = true;
+                GetComponent<BoxCollider>().enabled = true;
+                actCMSSet_iM(false);
+                isBeingCarried = false;
+                txt_warning.text = "I have dropped the item.";
             }
-            if (itemSpcdCarry_i) // if item is in the main carry slot AND if this item is at the currently active destination
+
+            if (!itemMainCarry_i && itemSpcdCarry_i)
             {
-               if (this.transform.position == characterManager.ItemDestinationMain.position)
-               {
-               }
-               else if (this.transform.position == characterManager.ItemDestinationSpaced.position)
-               {
-                   txt_warning.text = "I have item in spaced slot, but not in main";
-                    isBeingCarried = true;
-               }
+                txt_warning.text = "I cannot remove the item from secondary slot. I need to switch its position first. Press [SPACE]";
             }
         }
     }
