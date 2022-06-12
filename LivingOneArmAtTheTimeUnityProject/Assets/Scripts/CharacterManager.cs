@@ -15,21 +15,17 @@ public class CharacterManager : MonoBehaviour
     Character Dahy;
     Character Dexter;
 
-    int numberCharacter = 1;
+    public int numberCharacter = 1;
     public string tagCharacter = "Tag_Armstrong";
     public string tagItemMain = "Tag_ItemMainArmstrong";
     public string tagItemSpaced = "Tag_ItemSpacedArmstrong";
-
-    public bool controlArmstrong = false;
-    public bool controlDahy = false;
-    public bool controlDexter = false;
 
     float characterRotation = 0f;
     public bool switching = false;
 
     //SPAGEHTTTIIIO
-    public bool instantatedDahy = false;
-    public bool instantatedDexter = false;
+    //public bool instantatedDahy = false;
+    //public bool instantatedDexter = false;
 
     #endregion
     #region - Movement input floats and vectors - 
@@ -50,8 +46,7 @@ public class CharacterManager : MonoBehaviour
     #region - Action -
     [Header("Carrying and Balance Action")]
     public bool isMoving = false;
-   
-    
+
     public bool need2KeepBalance = false; // false by default, triggered by certain types of action
     public float currentBalance = 10;
     public float currentStamina;
@@ -66,25 +61,43 @@ public class CharacterManager : MonoBehaviour
     private Vector3 gravityDirection;
     private Vector3 gravityMovement;
     #endregion
+    #region - Armstrong - 
+    [Header("Armstrong stats")]
+    public bool controlArmstrong = false;
+    /// <summary>
+    /// 3 bools: Can Carry items, item is in Main, item is Spaced
+    /// </summary>
+    public bool[] itemCarryArrayArmstrong;
+    #endregion
+    #region - Dahy - 
+    [Header("Dahy stats")]
+    public bool controlDahy = false;
+    /// <summary>
+    /// 3 bools: Can Carry items, item is in Main, item is Spaced
+    /// </summary>
+    public bool[] itemCarryArrayDahy;
+    #endregion
+    #region - Dexter - 
+    [Header("Dexter stats")]
+    public bool controlDexter = false;
+    /// <summary>
+    /// 3 bools: Can Carry items, item is in Main, item is Spaced
+    /// </summary>
+    public bool[] itemCarryArrayDexter;
+    #endregion
+
     #region - Items -
     [Header("Items")]
     public Transform ItemDestinationMain;
     public Transform ItemDestinationSpaced;
 
-    //MAYBE REDUNDANT 
-    /*
-    public bool canCarryItems = true;
-    public bool itemMainCarry = false;
-    public bool itemSpacedCarry = false;
-    */
-    
     public bool canCarryItems_CM = true; //current character can carry items
     public bool itemMainCarry_CM = false; //current character is not carrying item in main position
     public bool itemSpcdCarry_CM = false; // second position of the item that imapcts the balance, current character is not carrying item in spaced position
 
-    public bool[] itemCarryArr;
-
+    public bool[] itemCarryArr = { true, false, false};
     #endregion
+
     private void Awake()
     {
         characterActiveSet();
@@ -101,9 +114,17 @@ public class CharacterManager : MonoBehaviour
         tagItemMain = "Tag_ItemMainArmstrong";
         tagItemSpaced = "Tag_ItemSpacedArmstrong";
 
+        //3 bools: Can Carry items, item is in Main, item is Spaced
+        itemCarryArrayArmstrong = new bool[] { true, false, false };
+        itemCarryArrayDexter = new bool[] { true, false, false };
+        itemCarryArrayDahy = new bool[] { true, false, false };
+        //Debug.Log(itemCarryArrayArmstrong[0]);
+
         actSSSSet(Armstrong);
-        actCMSSet(Armstrong);
-        actCMSUpdate(Armstrong);
+        //actCMSSet(Armstrong);
+        actCMSSet();
+        actCMSGet();
+        actCMSUpdate();
 
         //activeSpeedStaminaStrength = new float[3] { Armstrong.speedGet(), Armstrong.staminaGet(), Armstrong.strengthGet() };
         //itemCarryArr = new bool[3] { canCarryItems, itemMainCarry, itemSpacedCarry };
@@ -119,7 +140,12 @@ public class CharacterManager : MonoBehaviour
     {
         numCharSet();
         characterSwitch();
-        if (switching) { currentStamina = actSSSGet()[1]; switching = false; }
+        if (switching) 
+        { 
+            currentStamina = actSSSGet()[1];
+            actCMSSet();
+            switching = false; 
+        }
 
         characterActiveSet();
         mainCam.transform.SetParent(activeCharacter.transform);
@@ -137,6 +163,7 @@ public class CharacterManager : MonoBehaviour
         ItemDestinationSpaced = GameObject.FindGameObjectWithTag(tagItemSpaced).transform;
 
         //actCMSUpdate(Armstrong);
+        actCMSUpdate();
     }
 
     #region - Active Character - 
@@ -160,8 +187,8 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = true;
                 controlDahy = false;
                 controlDexter = false;
-                actCMSSet(Armstrong);
-                actCMSUpdate(Armstrong);
+                //actCMSSet(Armstrong);
+                //actCMSUpdate(Armstrong);
                 actSSSSet(Armstrong);
                 break;
             case 2:
@@ -171,8 +198,8 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = false;
                 controlDahy = true;
                 controlDexter = false;
-                actCMSSet(Dahy);
-                actCMSUpdate(Dahy);
+                //actCMSSet(Dahy);
+                //actCMSUpdate(Dahy);
                 actSSSSet(Dahy);
                 break;
             case 3:
@@ -182,8 +209,8 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = false;
                 controlDahy = false;
                 controlDexter = true;
-                actCMSSet(Dexter);
-                actCMSUpdate(Dexter);
+                //actCMSSet(Dexter);
+                //actCMSUpdate(Dexter);
                 actSSSSet(Dexter);
                 break;
         }
@@ -236,14 +263,20 @@ public class CharacterManager : MonoBehaviour
     /// itemSpacedCarry - is item being carried in the spaced slot?
     /// </summary>
     /// <param name="character"></param>
-    public void actCMSSet(Character character)
+    public void actCMSSet() // parameter Character character
     {
-        canCarryItems_CM = character.canCarryItemsGet();
-        itemMainCarry_CM = character.itemMainCarryGet();
-        itemSpcdCarry_CM = character.itemSpacedCarryGet();
+        //canCarryItems_CM = character.canCarryItemsGet();
+        //itemMainCarry_CM = character.itemMainCarryGet();
+        //itemSpcdCarry_CM = character.itemSpacedCarryGet();
+        
+        //canCarryItems_CM = actCMSGet()[0];
+        //itemMainCarry_CM = actCMSGet()[1];
+        //itemSpcdCarry_CM = actCMSGet()[2];
+        //
+        //bool[] actCMS = { canCarryItems_CM, itemMainCarry_CM, itemSpcdCarry_CM };
+        //itemCarryArr = actCMS;
 
-        bool[] actCMS = { canCarryItems_CM, itemMainCarry_CM, itemSpcdCarry_CM };
-        itemCarryArr = actCMS;
+        itemCarryArr = actCMSGet();
 
         //Debug.Log("actCMSSet is being called in CharacterManager.cs, and itemMainCarry_CM = " + itemMainCarry_CM); // this is called so many times it is evident it is overwritten by some shit
     }
@@ -252,11 +285,14 @@ public class CharacterManager : MonoBehaviour
     /// Update (Set) Carry, Main and Spaced for the current character
     /// </summary>
     /// <param name="character"></param>
-    public void actCMSUpdate(Character character)
+    public void actCMSUpdate() // parameter Character character
     {
-        character.canCarryItemsSet(itemCarryArr[0]);
-        character.itemMainCarrySet(itemCarryArr[1]);
-        character.itemSpacedCarrySet(itemCarryArr[2]);
+        itemCarryArr = actCMSGet();
+
+        //TO BE UPDATED....TO TAKE CURRENTLY ACTIVE STATS ONLY. NOT OF A CHARACTER.
+        //character.canCarryItemsSet(itemCarryArr[0]);
+        //character.itemMainCarrySet(itemCarryArr[1]);
+        //character.itemSpacedCarrySet(itemCarryArr[2]);
         //Debug.Log("Updating character carry bools in actCMSUpdate. itemCarryArr = { " + itemCarryArr[0]+ ", " + itemCarryArr[1] + ", " + itemCarryArr[2]+ " }"); // BEING CALLED
     }
 
@@ -285,8 +321,36 @@ public class CharacterManager : MonoBehaviour
         itemCarryArr[2] = actCMS_s;
     }
 
-    public bool [] actCMSGet()
+    public bool [] itemCarryArrGet()
     {
+        //Debug.Log("itemCarryArrGet function in CharacterManager.cs called");
+        return itemCarryArr;
+    }
+
+   public bool [] actCMSGet()
+   {
+        //Debug.Log("actCMSGet function in CharacterManager.cs called");
+        bool [] actCMSGetArray = { true, false, false };
+
+
+
+        switch (numberCharacter)
+        {
+            case 1:
+                //Armstrong
+                actCMSGetArray =  itemCarryArrayArmstrong;
+                break;
+            case 2:
+                //Dahy
+                actCMSGetArray =  itemCarryArrayDahy;
+                break;
+            case 3:
+                //Dexter
+                actCMSGetArray = itemCarryArrayDexter;
+                break;
+        }
+
+        itemCarryArr =  actCMSGetArray;
         return itemCarryArr;
     }
 
@@ -355,6 +419,4 @@ public class CharacterManager : MonoBehaviour
         gravityMovement = gravityDirection * -currentGravity; //holding direction
     }
     #endregion
-
-   
 }

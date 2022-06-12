@@ -26,6 +26,8 @@ public class Interactable : MonoBehaviour
     }
     private void Start()
     {
+
+        Debug.Log(characterManager.itemCarryArrGet()[0]);
         actCMSGet_i(characterManager); //fetching currently active stats for Carry Bools
     }
 
@@ -151,9 +153,18 @@ public class Interactable : MonoBehaviour
 
     public void actCMSGet_i(CharacterManager characterManager)
     {
-        canCarryItems_i = characterManager.actCMSGet()[0];
-        itemMainCarry_i = characterManager.actCMSGet()[1];
-        itemSpcdCarry_i = characterManager.actCMSGet()[2];
+        //Debug.Log("actCMSGet_i function in Interactable.cs called");
+        bool[] actCMSGetArray = { true, false, false };
+        actCMSGetArray = characterManager.itemCarryArrGet();
+
+        canCarryItems_i = actCMSGetArray[0];
+        itemMainCarry_i = actCMSGetArray[1];
+        itemSpcdCarry_i = actCMSGetArray[2];
+        
+        //OLD CODE
+        //canCarryItems_i = characterManager.actCMSGet()[0];
+        //itemMainCarry_i = characterManager.actCMSGet()[1];
+        //itemSpcdCarry_i = characterManager.actCMSGet()[2];
     }
 
     public void actCMSSet_iC(bool carry)

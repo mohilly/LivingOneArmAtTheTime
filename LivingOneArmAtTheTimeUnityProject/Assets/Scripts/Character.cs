@@ -15,6 +15,7 @@ public class Character {
     [Header("Balance")]
     public float balance = 10; //0-10, if under 5 then character has a bigger chance to fall or drop items // MAYBE PUT 0-1
 
+    //MAYBE THIS SHIT AN BE DELETED. COMMENTED OUT FOR NOW.
     [Header("Carry")]
     public bool canCarryItems = true;
     public bool itemMainCarry = false;
