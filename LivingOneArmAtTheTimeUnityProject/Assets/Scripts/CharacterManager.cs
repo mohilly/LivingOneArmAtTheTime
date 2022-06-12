@@ -26,7 +26,10 @@ public class CharacterManager : MonoBehaviour
 
     float characterRotation = 0f;
     public bool switching = false;
-    
+
+    //SPAGEHTTTIIIO
+    public bool instantatedDahy = false;
+    public bool instantatedDexter = false;
 
     #endregion
     #region - Movement input floats and vectors - 
@@ -98,9 +101,9 @@ public class CharacterManager : MonoBehaviour
         tagItemMain = "Tag_ItemMainArmstrong";
         tagItemSpaced = "Tag_ItemSpacedArmstrong";
 
-        actCMSUpdate(Armstrong);
         actSSSSet(Armstrong);
         actCMSSet(Armstrong);
+        actCMSUpdate(Armstrong);
 
         //activeSpeedStaminaStrength = new float[3] { Armstrong.speedGet(), Armstrong.staminaGet(), Armstrong.strengthGet() };
         //itemCarryArr = new bool[3] { canCarryItems, itemMainCarry, itemSpacedCarry };
@@ -132,6 +135,8 @@ public class CharacterManager : MonoBehaviour
         //DOES THIS ITEM DESTINATION MUST BE HERE? LIKE IN THAT WAY, OR SHOULD WE SET IT IN A FUNCTION THAT IS BEING CALLED?
         ItemDestinationMain = GameObject.FindGameObjectWithTag(tagItemMain).transform;
         ItemDestinationSpaced = GameObject.FindGameObjectWithTag(tagItemSpaced).transform;
+
+        //actCMSUpdate(Armstrong);
     }
 
     #region - Active Character - 
@@ -155,9 +160,9 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = true;
                 controlDahy = false;
                 controlDexter = false;
+                actCMSSet(Armstrong);
                 actCMSUpdate(Armstrong);
                 actSSSSet(Armstrong);
-                actCMSSet(Armstrong);
                 break;
             case 2:
                 tagCharacter = "Tag_Dahy";
@@ -166,9 +171,9 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = false;
                 controlDahy = true;
                 controlDexter = false;
+                actCMSSet(Dahy);
                 actCMSUpdate(Dahy);
                 actSSSSet(Dahy);
-                actCMSSet(Dahy);
                 break;
             case 3:
                 tagCharacter = "Tag_Dexter";
@@ -177,9 +182,9 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = false;
                 controlDahy = false;
                 controlDexter = true;
+                actCMSSet(Dexter);
                 actCMSUpdate(Dexter);
                 actSSSSet(Dexter);
-                actCMSSet(Dexter);
                 break;
         }
     }
@@ -239,19 +244,23 @@ public class CharacterManager : MonoBehaviour
 
         bool[] actCMS = { canCarryItems_CM, itemMainCarry_CM, itemSpcdCarry_CM };
         itemCarryArr = actCMS;
+
+        //Debug.Log("actCMSSet is being called in CharacterManager.cs, and itemMainCarry_CM = " + itemMainCarry_CM); // this is called so many times it is evident it is overwritten by some shit
     }
+
+    /// <summary>
+    /// Update (Set) Carry, Main and Spaced for the current character
+    /// </summary>
+    /// <param name="character"></param>
     public void actCMSUpdate(Character character)
     {
-        character.canCarryItemsSet(canCarryItems_CM);
-        character.itemMainCarrySet(itemMainCarry_CM);
-        character.itemSpacedCarrySet(itemSpcdCarry_CM);
-
-        bool[] actCMS = { canCarryItems_CM, itemMainCarry_CM, itemSpcdCarry_CM };
-        itemCarryArr = actCMS;
-        //Debug.Log("Updating character carry bools"); // BEING CALLED
+        character.canCarryItemsSet(itemCarryArr[0]);
+        character.itemMainCarrySet(itemCarryArr[1]);
+        character.itemSpacedCarrySet(itemCarryArr[2]);
+        //Debug.Log("Updating character carry bools in actCMSUpdate. itemCarryArr = { " + itemCarryArr[0]+ ", " + itemCarryArr[1] + ", " + itemCarryArr[2]+ " }"); // BEING CALLED
     }
 
-    public void actCMSUpdate_CMc (bool carry)
+    public void actCMSUpdate_CMc(bool carry)
     {
         canCarryItems_CM = carry;
 
@@ -265,8 +274,7 @@ public class CharacterManager : MonoBehaviour
 
         bool actCMS_m = itemMainCarry_CM;
         itemCarryArr[1] = actCMS_m;
-        //Debug.Log("Updating itemMainCarry_CM"); // BEING CALLED
-        //Debug.Log(main); IT IS BEING PASSED AS TRUE
+        //Debug.Log("actCMSUpdate_CMm is being called in CharacterManager.cs and itemCarryArr[1] = " + actCMS_m); // BEING CALLED
     }
 
     public void actCMSUpdate_CMs(bool spaced)

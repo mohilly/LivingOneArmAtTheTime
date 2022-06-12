@@ -24,6 +24,7 @@ public class PlayerCasting : MonoBehaviour
             {
                 var selectionRenderer = _selection.GetComponent<Renderer>();
                 selectionRenderer.material = materialDefault;
+                selectionRenderer.GetComponent<Interactable>().canBePickedUp = false; //interactable object cannnot be picked up when not looked at
                 _selection = null;
             }
 
@@ -43,6 +44,7 @@ public class PlayerCasting : MonoBehaviour
                     if (selectionRenderer != null)
                     {
                         selectionRenderer.material = materialSelected;
+                        selectionRenderer.GetComponent<Interactable>().canBePickedUp = true; //interactable object can be picked up only when looked at
                     }
 
                     _selection = selection;
