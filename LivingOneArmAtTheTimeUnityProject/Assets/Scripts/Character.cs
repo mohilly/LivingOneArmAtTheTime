@@ -72,6 +72,7 @@ public class Character {
     {
         balance = _Balance;
     }    
+    /*
     public void canCarryItemsSet(bool _canCarryItems)
     {
         canCarryItems = _canCarryItems;
@@ -84,7 +85,7 @@ public class Character {
     {
         itemSpcdCarry = _itemSpacedCarry;
     }
-
+    */
     //Getters
     public string nameGet()
     {
@@ -106,6 +107,8 @@ public class Character {
     {
         return balance;
     }
+
+    /*
     public bool canCarryItemsGet()
     {
         return canCarryItems;
@@ -118,6 +121,7 @@ public class Character {
     {
         return itemSpcdCarry;
     }
+    */
     //Deconstructor
     ~Character(){}
 }

@@ -73,6 +73,5 @@ public class UIManager : MonoBehaviour
         //txt_speedNumCur.text = characterManager. ; //to update later if needed
         txt_staminaNumCur.text = characterManager.currentStamina.ToString();
         txt_balanceNumCur.text = characterManager.currentBalance.ToString();
-
     }
 }

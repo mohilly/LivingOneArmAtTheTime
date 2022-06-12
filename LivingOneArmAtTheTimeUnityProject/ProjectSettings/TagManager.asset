@@ -17,6 +17,7 @@ TagManager:
   - Tag_Interactable
   - Tag_Environment
   - Tag_OtherHierarchy
+  - Tag_UI
   layers:
   - Default
   - TransparentFX

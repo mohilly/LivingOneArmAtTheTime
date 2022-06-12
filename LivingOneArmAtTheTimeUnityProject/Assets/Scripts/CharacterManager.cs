@@ -97,7 +97,6 @@ public class CharacterManager : MonoBehaviour
 
     public bool[] itemCarryArr = { true, false, false};
     #endregion
-
     private void Awake()
     {
         characterActiveSet();

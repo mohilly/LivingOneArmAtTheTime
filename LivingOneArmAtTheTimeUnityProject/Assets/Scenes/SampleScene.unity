@@ -351,9 +351,11 @@ MonoBehaviour:
   characters: {fileID: 0}
   characterManager: {fileID: 0}
   isBeingCarried: 0
+  canBePickedUp: 0
   canCarryItems_i: 1
   itemMainCarry_i: 0
   itemSpcdCarry_i: 0
+  txt_warning: {fileID: 0}
 --- !u!65 &65559702
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -894,7 +896,7 @@ GameObject:
   - component: {fileID: 188224198}
   m_Layer: 5
   m_Name: Text (TMP) Speed
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1028,7 +1030,7 @@ GameObject:
   - component: {fileID: 189820155}
   m_Layer: 5
   m_Name: Text (TMP) SpeedNum Current
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1463,7 +1465,7 @@ GameObject:
   - component: {fileID: 283537246}
   - component: {fileID: 283537247}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Cube Chair
   m_TagString: Tag_Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1500,9 +1502,11 @@ MonoBehaviour:
   characters: {fileID: 0}
   characterManager: {fileID: 0}
   isBeingCarried: 0
+  canBePickedUp: 0
   canCarryItems_i: 1
   itemMainCarry_i: 0
   itemSpcdCarry_i: 0
+  txt_warning: {fileID: 0}
 --- !u!65 &283537248
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1564,7 +1568,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283537245}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -1238218227891777710, guid: 501c6e36becba50bbbb69ac66fe0dc7b, type: 3}
 --- !u!4 &283537251
 Transform:
   m_ObjectHideFlags: 0
@@ -1758,7 +1762,7 @@ GameObject:
   - component: {fileID: 296830945}
   m_Layer: 5
   m_Name: RawImage MiddlePoint
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1832,7 +1836,7 @@ GameObject:
   - component: {fileID: 302588439}
   - component: {fileID: 302588438}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Cube Table
   m_TagString: Tag_Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1853,9 +1857,11 @@ MonoBehaviour:
   characters: {fileID: 0}
   characterManager: {fileID: 0}
   isBeingCarried: 0
+  canBePickedUp: 0
   canCarryItems_i: 1
   itemMainCarry_i: 0
   itemSpcdCarry_i: 0
+  txt_warning: {fileID: 0}
 --- !u!54 &302588439
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1933,7 +1939,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 302588437}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 7311518986381304031, guid: 46f6bb81d0d8bcb8183cf916b82dffd9, type: 3}
 --- !u!4 &302588443
 Transform:
   m_ObjectHideFlags: 0
@@ -2294,7 +2300,7 @@ GameObject:
   - component: {fileID: 509208645}
   m_Layer: 5
   m_Name: Text (TMP) ItemsNum
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2503,7 +2509,7 @@ GameObject:
   - component: {fileID: 554820339}
   m_Layer: 5
   m_Name: Text (TMP) BalanceNum Current
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2625,6 +2631,140 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 554820337}
+  m_CullTransparentMesh: 1
+--- !u!1 &582828613
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 582828614}
+  - component: {fileID: 582828616}
+  - component: {fileID: 582828615}
+  m_Layer: 5
+  m_Name: Text (TMP) Ingame Warning
+  m_TagString: Tag_UI
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &582828614
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582828613}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1296139528}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 50}
+  m_SizeDelta: {x: 750, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &582828615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582828613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 25
+  m_fontSizeBase: 25
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &582828616
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582828613}
   m_CullTransparentMesh: 1
 --- !u!1001 &593070449
 PrefabInstance:
@@ -2846,7 +2986,7 @@ GameObject:
   - component: {fileID: 640787633}
   m_Layer: 5
   m_Name: Text (TMP) Items
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3195,9 +3335,11 @@ MonoBehaviour:
   characters: {fileID: 0}
   characterManager: {fileID: 0}
   isBeingCarried: 0
+  canBePickedUp: 0
   canCarryItems_i: 1
   itemMainCarry_i: 0
   itemSpcdCarry_i: 0
+  txt_warning: {fileID: 0}
 --- !u!54 &735379314
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3325,7 +3467,7 @@ GameObject:
   - component: {fileID: 762956730}
   m_Layer: 5
   m_Name: Text (TMP) Speed Current
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3870,7 +4012,7 @@ GameObject:
   - component: {fileID: 931372836}
   m_Layer: 5
   m_Name: Text (TMP) Balance Current
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4510,9 +4652,11 @@ MonoBehaviour:
   characters: {fileID: 0}
   characterManager: {fileID: 0}
   isBeingCarried: 0
+  canBePickedUp: 0
   canCarryItems_i: 1
   itemMainCarry_i: 0
   itemSpcdCarry_i: 0
+  txt_warning: {fileID: 0}
 --- !u!65 &1095547237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5015,7 +5159,7 @@ GameObject:
   - component: {fileID: 1244082911}
   m_Layer: 5
   m_Name: Text (TMP) BalanceNum
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5232,7 +5376,7 @@ GameObject:
   - component: {fileID: 1268748185}
   m_Layer: 5
   m_Name: Text (TMP) SpeedNum
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5368,7 +5512,7 @@ GameObject:
   - component: {fileID: 1289032881}
   m_Layer: 5
   m_Name: Text (TMP) StaminaNum
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5661,6 +5805,7 @@ RectTransform:
   - {fileID: 2093049042}
   - {fileID: 554820338}
   - {fileID: 296830944}
+  - {fileID: 582828614}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6178,7 +6323,7 @@ GameObject:
   - component: {fileID: 1494415836}
   m_Layer: 5
   m_Name: Text (TMP) Balance
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6407,7 +6552,7 @@ GameObject:
   - component: {fileID: 1518805739}
   m_Layer: 5
   m_Name: Text (TMP) Stamina Current
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6620,7 +6765,7 @@ GameObject:
   - component: {fileID: 1591961983}
   m_Layer: 5
   m_Name: Text (TMP) Stamina
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7087,12 +7232,10 @@ MonoBehaviour:
   activeCharacter: {fileID: 214749667}
   controller: {fileID: 0}
   mainCam: {fileID: 0}
+  numberCharacter: 1
   tagCharacter: Tag_Armstrong
   tagItemMain: Tag_ItemMainArmstrong
   tagItemSpaced: Tag_ItemSpacedArmstrong
-  controlArmstrong: 0
-  controlDahy: 0
-  controlDexter: 0
   switching: 0
   isMoving: 0
   need2KeepBalance: 0
@@ -7102,6 +7245,12 @@ MonoBehaviour:
   currentGravity: 0
   constantGravity: -0.6
   maxGravity: -15
+  controlArmstrong: 0
+  itemCarryArrayArmstrong: 
+  controlDahy: 0
+  itemCarryArrayDahy: 
+  controlDexter: 0
+  itemCarryArrayDexter: 
   ItemDestinationMain: {fileID: 0}
   ItemDestinationSpaced: {fileID: 0}
   canCarryItems_CM: 1
@@ -7145,9 +7294,11 @@ MonoBehaviour:
   characters: {fileID: 0}
   characterManager: {fileID: 0}
   isBeingCarried: 0
+  canBePickedUp: 0
   canCarryItems_i: 1
   itemMainCarry_i: 0
   itemSpcdCarry_i: 0
+  txt_warning: {fileID: 0}
 --- !u!65 &1724741226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7192,7 +7343,7 @@ GameObject:
   - component: {fileID: 1753687514}
   - component: {fileID: 1753687513}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cube Kitchen
   m_TagString: Tag_Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7213,9 +7364,11 @@ MonoBehaviour:
   characters: {fileID: 0}
   characterManager: {fileID: 0}
   isBeingCarried: 0
+  canBePickedUp: 0
   canCarryItems_i: 1
   itemMainCarry_i: 0
   itemSpcdCarry_i: 0
+  txt_warning: {fileID: 0}
 --- !u!54 &1753687514
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7505,7 +7658,7 @@ GameObject:
   - component: {fileID: 1886097840}
   m_Layer: 5
   m_Name: Text (TMP) StrengthNum
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7896,7 +8049,7 @@ GameObject:
   - component: {fileID: 2056960777}
   m_Layer: 5
   m_Name: Text (TMP) Strength
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8115,7 +8268,7 @@ GameObject:
   - component: {fileID: 2093049043}
   m_Layer: 5
   m_Name: Text (TMP) StaminaNum Current
-  m_TagString: Tag_OtherHierarchy
+  m_TagString: Tag_UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
