@@ -23,6 +23,8 @@ public class CharacterManager : MonoBehaviour
     float characterRotation = 0f;
     public bool switching = false;
 
+
+
     //SPAGEHTTTIIIO
     //public bool instantatedDahy = false;
     //public bool instantatedDexter = false;
@@ -43,6 +45,16 @@ public class CharacterManager : MonoBehaviour
     float activeStamina;
     float activeStrength;
     #endregion
+    public float armstrongMaxHeight;
+    public float armstrongMaxDistance;
+    public float dahyMaxHeight;
+    public float dahyMaxDistance;
+    public float dexterMaxHeight;
+    public float dexterMaxDistance;
+
+    public float invalidHeight = 1.5f;
+    public float invalidDistance = 2f;
+
     #region - Action -
     [Header("Carrying and Balance Action")]
     public bool isMoving = false;
@@ -125,6 +137,13 @@ public class CharacterManager : MonoBehaviour
         actCMSGet();
         actCMSUpdate();
 
+        armstrongMaxHeight = 1f;
+        armstrongMaxDistance = 0.5f;
+        dahyMaxHeight = 1.5f;
+        dahyMaxDistance = 1.5f;
+        dexterMaxHeight = 1.5f;
+        dexterMaxDistance = 2f;
+
         //activeSpeedStaminaStrength = new float[3] { Armstrong.speedGet(), Armstrong.staminaGet(), Armstrong.strengthGet() };
         //itemCarryArr = new bool[3] { canCarryItems, itemMainCarry, itemSpacedCarry };
     }
@@ -186,8 +205,8 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = true;
                 controlDahy = false;
                 controlDexter = false;
-                //actCMSSet(Armstrong);
-                //actCMSUpdate(Armstrong);
+                invalidHeight = armstrongMaxHeight;
+                invalidDistance = armstrongMaxDistance;
                 actSSSSet(Armstrong);
                 break;
             case 2:
@@ -197,8 +216,8 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = false;
                 controlDahy = true;
                 controlDexter = false;
-                //actCMSSet(Dahy);
-                //actCMSUpdate(Dahy);
+                invalidHeight   = dahyMaxHeight;
+                invalidDistance = dahyMaxDistance;
                 actSSSSet(Dahy);
                 break;
             case 3:
@@ -208,8 +227,8 @@ public class CharacterManager : MonoBehaviour
                 controlArmstrong = false;
                 controlDahy = false;
                 controlDexter = true;
-                //actCMSSet(Dexter);
-                //actCMSUpdate(Dexter);
+                invalidHeight   = dexterMaxHeight;
+                invalidDistance = dexterMaxDistance;
                 actSSSSet(Dexter);
                 break;
         }
@@ -264,20 +283,8 @@ public class CharacterManager : MonoBehaviour
     /// <param name="character"></param>
     public void actCMSSet() // parameter Character character
     {
-        //canCarryItems_CM = character.canCarryItemsGet();
-        //itemMainCarry_CM = character.itemMainCarryGet();
-        //itemSpcdCarry_CM = character.itemSpacedCarryGet();
-        
-        //canCarryItems_CM = actCMSGet()[0];
-        //itemMainCarry_CM = actCMSGet()[1];
-        //itemSpcdCarry_CM = actCMSGet()[2];
-        //
-        //bool[] actCMS = { canCarryItems_CM, itemMainCarry_CM, itemSpcdCarry_CM };
-        //itemCarryArr = actCMS;
 
         itemCarryArr = actCMSGet();
-
-        //Debug.Log("actCMSSet is being called in CharacterManager.cs, and itemMainCarry_CM = " + itemMainCarry_CM); // this is called so many times it is evident it is overwritten by some shit
     }
 
     /// <summary>
@@ -287,12 +294,6 @@ public class CharacterManager : MonoBehaviour
     public void actCMSUpdate() // parameter Character character
     {
         itemCarryArr = actCMSGet();
-
-        //TO BE UPDATED....TO TAKE CURRENTLY ACTIVE STATS ONLY. NOT OF A CHARACTER.
-        //character.canCarryItemsSet(itemCarryArr[0]);
-        //character.itemMainCarrySet(itemCarryArr[1]);
-        //character.itemSpacedCarrySet(itemCarryArr[2]);
-        //Debug.Log("Updating character carry bools in actCMSUpdate. itemCarryArr = { " + itemCarryArr[0]+ ", " + itemCarryArr[1] + ", " + itemCarryArr[2]+ " }"); // BEING CALLED
     }
 
     public void actCMSUpdate_CMc(bool carry)
@@ -309,7 +310,6 @@ public class CharacterManager : MonoBehaviour
 
         bool actCMS_m = itemMainCarry_CM;
         itemCarryArr[1] = actCMS_m;
-        //Debug.Log("actCMSUpdate_CMm is being called in CharacterManager.cs and itemCarryArr[1] = " + actCMS_m); // BEING CALLED
     }
 
     public void actCMSUpdate_CMs(bool spaced)
@@ -322,16 +322,12 @@ public class CharacterManager : MonoBehaviour
 
     public bool [] itemCarryArrGet()
     {
-        //Debug.Log("itemCarryArrGet function in CharacterManager.cs called");
         return itemCarryArr;
     }
 
    public bool [] actCMSGet()
    {
-        //Debug.Log("actCMSGet function in CharacterManager.cs called");
         bool [] actCMSGetArray = { true, false, false };
-
-
 
         switch (numberCharacter)
         {

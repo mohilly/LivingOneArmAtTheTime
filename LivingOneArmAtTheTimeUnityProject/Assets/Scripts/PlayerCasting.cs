@@ -15,6 +15,16 @@ public class PlayerCasting : MonoBehaviour
     public Transform selection;
     //public Renderer selectionRenderer;
 
+    public GameObject characters;
+    public CharacterManager characterManager;
+
+    private void Awake()
+    {
+        characters = GameObject.FindGameObjectWithTag("Tag_Character");
+        characterManager = characters.GetComponent<CharacterManager>();
+
+    }
+
     void Update()
     {
         //if (selectionRenderer != null) 
@@ -31,7 +41,7 @@ public class PlayerCasting : MonoBehaviour
             //raycasting from camera  // maybe I don't need this?
             //var Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit Hit;
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out Hit))
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out Hit,characterManager.invalidDistance))
             {
                 selection = Hit.transform;
 

@@ -59,24 +59,6 @@ public class Interactable : MonoBehaviour
     /// </summary>
     public void itemSpace()
     {
-
-       /* GameObject heldMain = null;
-        GameObject heldSpaced = null;
-
-        Transform mainHand = characterManager.ItemDestinationMain;
-        Transform spacedHand = characterManager.ItemDestinationSpaced;
-
-
-        if (itemMainCarry_i)
-        {
-            heldMain = characterManager.ItemDestinationMain.GetChild(0).gameObject;
-        }
-        if (itemSpcdCarry_i)
-        {
-            heldSpaced = characterManager.ItemDestinationSpaced.GetChild(0).gameObject;
-        }
-       */
-
         if (itemMainCarry_i || itemSpcdCarry_i)
         { 
             if (this.transform.parent == GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform)

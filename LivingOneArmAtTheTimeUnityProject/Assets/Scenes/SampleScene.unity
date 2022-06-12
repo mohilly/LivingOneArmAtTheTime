@@ -1577,7 +1577,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283537245}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.665, y: 0.509, z: 6.411}
+  m_LocalPosition: {x: -3.393, y: 2.204, z: 11.033}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3952,6 +3952,8 @@ MonoBehaviour:
   materialDefault: {fileID: 2100000, guid: 89cdd8f34d980ba40a9c56ccc837795c, type: 2}
   _selection: {fileID: 0}
   selection: {fileID: 0}
+  characters: {fileID: 0}
+  characterManager: {fileID: 0}
 --- !u!4 &893883381 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4883979696273182, guid: 2fb21da965b40ee45b270cc570e98192, type: 3}
@@ -7256,6 +7258,14 @@ MonoBehaviour:
   tagItemMain: Tag_ItemMainArmstrong
   tagItemSpaced: Tag_ItemSpacedArmstrong
   switching: 0
+  armstrongMaxHeight: 0
+  armstrongMaxDistance: 0
+  dahyMaxHeight: 0
+  dahyMaxDistance: 0
+  dexterMaxHeight: 0
+  dexterMaxDistance: 0
+  invalidHeight: 0
+  invalidDistance: 0
   isMoving: 0
   need2KeepBalance: 0
   currentBalance: 10
