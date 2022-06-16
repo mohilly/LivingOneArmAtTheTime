@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
 public class Interactable : MonoBehaviour
 {
     public GameObject characters;
@@ -28,7 +27,6 @@ public class Interactable : MonoBehaviour
     }
     private void Start()
     {
-        Debug.Log(characterManager.itemCarryArrGet()[0]);
         actCMSGet_i(characterManager); //fetching currently active stats for Carry Bools
     }
     private void Update()
@@ -46,8 +44,6 @@ public class Interactable : MonoBehaviour
         OnMouseDown();
         
     }
-    //THIS CODE NEEDS TO BE IN A SPECIAL SCRIPT ATTACHED TO INTERACTABLE OBJECTS OK
-    //IS THIS EVEN NECESSARY
     #region - Items - 
     public void itemCarry()
     {
@@ -67,9 +63,6 @@ public class Interactable : MonoBehaviour
                 this.transform.position = characterManager.ItemDestinationSpaced.position;
                 this.transform.parent = GameObject.FindGameObjectWithTag(characterManager.tagItemSpaced).transform;
                 this.transform.localPosition = new Vector3(0, 0, 0); // WANTED TO RESET THE POSITION TO 0,0,0 SO IT IS IN THE DEAD CENTER OF THAT POSITION //no work
-
-
-
             }
             else if (this.transform.parent == GameObject.FindGameObjectWithTag(characterManager.tagItemSpaced).transform)
             {
@@ -77,28 +70,19 @@ public class Interactable : MonoBehaviour
                 this.transform.position = characterManager.ItemDestinationMain.position;
                 this.transform.parent = GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform;
                 this.transform.localPosition = new Vector3(0, 0, 0); // WANTED TO RESET THE POSITION TO 0,0,0 SO IT IS IN THE DEAD CENTER OF THAT POSITION // no work
-                
-                
-
             }
-
 
             if ((itemMainCarry_i && !itemSpcdCarry_i) || (itemSpcdCarry_i && !itemMainCarry_i))
             {
                 actCMSSet_iM(!itemMainCarry_i);
                 actCMSSet_iS(!itemSpcdCarry_i);
-                //itemMainCarry_i = !itemMainCarry_i;
-                //itemSpcdCarry_i = !itemSpcdCarry_i;
             }
             else if (itemMainCarry_i && itemSpcdCarry_i)
             {
                 actCMSSet_iM(true);
                 actCMSSet_iS(true);
-
             }
-
         }
-
 
         if (!itemMainCarry_i && !itemSpcdCarry_i)
         {
@@ -160,12 +144,6 @@ public class Interactable : MonoBehaviour
                     isBeingCarried = true;
                     txt_warning.text = "I have item in spaced slot";
                 }
-
-                /*
-                if (!itemMainCarry_i && itemSpcdCarry_i)
-                {
-                    txt_warning.text = "I cannot remove the item from secondary slot. I need to switch its position first. Press [SPACE]";
-                }*/
             }
             if (itemSpcdCarry_i) // if item is in the main carry slot AND if this item is at the currently active destination
             {
@@ -199,7 +177,6 @@ public class Interactable : MonoBehaviour
     public void actCMSSet_iM(bool main)
     {
         characterManager.actCMSUpdate_CMm(main);
-        //Debug.Log("actCMSSet_iM in Interactable.cs  is being set to " + main); //works but.... nothing changed.....
     }
 
     public void actCMSSet_iS(bool spaced)
