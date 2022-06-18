@@ -121,7 +121,6 @@ public class CharacterManager : MonoBehaviour
         gravityDirection = Vector3.down;
 
         tagCharacter = "Tag_Armstrong";
-        //ASK YOURSELF, DO I NEED THIS SHIT
         tagItemMain = "Tag_ItemMainArmstrong";
         tagItemSpaced = "Tag_ItemSpacedArmstrong";
 
@@ -129,23 +128,20 @@ public class CharacterManager : MonoBehaviour
         itemCarryArrayArmstrong = new bool[] { true, false, false };
         itemCarryArrayDexter = new bool[] { true, false, false };
         itemCarryArrayDahy = new bool[] { true, false, false };
-        //Debug.Log(itemCarryArrayArmstrong[0]);
 
         actSSSSet(Armstrong);
-        //actCMSSet(Armstrong);
         actCMSSet();
         actCMSGet();
         actCMSUpdate();
 
-        armstrongMaxHeight = 1f;
-        armstrongMaxDistance = 0.5f;
-        dahyMaxHeight = 1.5f;
-        dahyMaxDistance = 1.5f;
-        dexterMaxHeight = 1.5f;
-        dexterMaxDistance = 2f;
+        armstrongMaxHeight = 1.4f;
+        armstrongMaxDistance = 1f;
 
-        //activeSpeedStaminaStrength = new float[3] { Armstrong.speedGet(), Armstrong.staminaGet(), Armstrong.strengthGet() };
-        //itemCarryArr = new bool[3] { canCarryItems, itemMainCarry, itemSpacedCarry };
+        dahyMaxHeight = 3f;
+        dahyMaxDistance = 1.5f;
+
+        dexterMaxHeight = 1.8f;
+        dexterMaxDistance = 1.2f;
     }
 
     void Start()
@@ -175,12 +171,10 @@ public class CharacterManager : MonoBehaviour
         characterStamina();
 
         if(Input.GetKeyDown(KeyCode.Escape)) { } //make sure to add EXITING OF THE GAME AND TERMINATING THE PROGRAM
-
-        //DOES THIS ITEM DESTINATION MUST BE HERE? LIKE IN THAT WAY, OR SHOULD WE SET IT IN A FUNCTION THAT IS BEING CALLED?
+               
         ItemDestinationMain = GameObject.FindGameObjectWithTag(tagItemMain).transform;
         ItemDestinationSpaced = GameObject.FindGameObjectWithTag(tagItemSpaced).transform;
 
-        //actCMSUpdate(Armstrong);
         actCMSUpdate();
     }
 
@@ -273,7 +267,9 @@ public class CharacterManager : MonoBehaviour
         if (isMoving) { characterStaminaDecrease(); }
         else if (!isMoving) { characterStaminaIncrease(); }
     }
+    #endregion
 
+    #region - SET, GET & UPDATE of Carry, Main, Spaced (CMS)
     /// <summary>
     /// Setting up bools: canCarryItems, itemMainCarry and itemSpacedCarry. <br/>
     /// canCarryItems - can a character carry an item? <br/>

@@ -9,6 +9,7 @@ public class PlayerCasting : MonoBehaviour
 
     [SerializeField] private string interactableTag = "Tag_Interactable";
     [SerializeField] private Material materialSelected;
+    [SerializeField] private Material materialTooHigh;
     [SerializeField] private Material materialDefault;
 
     public Transform _selection;
@@ -18,15 +19,18 @@ public class PlayerCasting : MonoBehaviour
     public GameObject characters;
     public CharacterManager characterManager;
 
+    public float invalidHeight_ps = 1.5f;
+
     private void Awake()
     {
         characters = GameObject.FindGameObjectWithTag("Tag_Character");
         characterManager = characters.GetComponent<CharacterManager>();
-
     }
 
     void Update()
     {
+        invalidHeight_ps = characterManager.invalidHeight;
+
         //if (selectionRenderer != null) 
         {
             //Debug.Log("Renderer exists");
@@ -53,7 +57,10 @@ public class PlayerCasting : MonoBehaviour
                     var selectionRenderer = selection.GetComponent<Renderer>();
                     if (selectionRenderer != null)
                     {
-                        selectionRenderer.material = materialSelected;
+                        if(invalidHeight_ps < selectionRenderer.transform.position.y) //If item is too high to reach, then it turns red instead of yellow
+                        { selectionRenderer.material = materialTooHigh; }
+                        else 
+                        {selectionRenderer.material = materialSelected; }                       
                         selectionRenderer.GetComponent<Interactable>().canBePickedUp = true; //interactable object can be picked up only when looked at
                     }
 

@@ -18,6 +18,8 @@ public class Interactable : MonoBehaviour
 
     public TMP_Text txt_warning;
 
+    public float invalidHeight_i = 1.5f;
+
     private void Awake()
     {
         characters = GameObject.FindGameObjectWithTag("Tag_Character");
@@ -28,6 +30,7 @@ public class Interactable : MonoBehaviour
     private void Start()
     {
         actCMSGet_i(characterManager); //fetching currently active stats for Carry Bools
+        invalidHeight_i = characterManager.invalidHeight;
     }
     private void Update()
     {
@@ -42,7 +45,9 @@ public class Interactable : MonoBehaviour
        // if (itemMainCarry_i) { actCMSSet_iM(true); } else { actCMSSet_iM(false); }
        // if (itemSpcdCarry_i) { actCMSSet_iS(true); } else { actCMSSet_iS(false); }
         OnMouseDown();
-        
+
+        invalidHeight_i = characterManager.invalidHeight;
+
     }
     #region - Items - 
     public void itemCarry()
@@ -101,26 +106,29 @@ public class Interactable : MonoBehaviour
         //By pressing left click character picks up items AND PUTS THEM TO MAIN ONLY
         if (Input.GetMouseButtonDown(0) && !isBeingCarried && canBePickedUp) //&& (playerCasting.toTarget <= 2)) //Debug.Log("Pressed left click."); //IF ITEM IS NOT BEING CARRIED CURRENTLY.
         {
-            if (canCarryItems_i)
+            if (invalidHeight_i < this.transform.position.y) // if this item's y value (height) is bigger then current characters max height value, that character cannot reach that item
+            { txt_warning.text = "This item is too high for me to reach! Maybe my roomate can reach it."; } 
+            else 
             {
-                if (itemMainCarry_i && !itemSpcdCarry_i) //iF character is carrying something in the man slot, but spaced is free
+                if (canCarryItems_i)
                 {
-                    txt_warning.text = "I cannot carry another item in the main slot. I need to switch its position first. Press [SPACE]";
+                    if (itemMainCarry_i && !itemSpcdCarry_i) //iF character is carrying something in the man slot, but spaced is free
+                    {
+                        txt_warning.text = "I cannot carry another item in the main slot. I need to switch its position first. Press [SPACE]";
+                    }
+                    else if ((!itemMainCarry_i && itemSpcdCarry_i) || (!itemMainCarry_i && !itemSpcdCarry_i))
+                    {
+                        GetComponent<BoxCollider>().enabled = false;
+                        GetComponent<Rigidbody>().useGravity = false; // making sure the object character picks up does not fall
+                        this.transform.position = characterManager.ItemDestinationMain.position;
+                        this.transform.parent = GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform;
+                        actCMSSet_iM(true);
+                        isBeingCarried = true;
+                        txt_warning.text = "I have picked up an item.";
+                    }
                 }
-                else if ((!itemMainCarry_i && itemSpcdCarry_i) || (!itemMainCarry_i && !itemSpcdCarry_i))
-                {
-                    GetComponent<BoxCollider>().enabled = false;
-                    GetComponent<Rigidbody>().useGravity = false; // making sure the object character picks up does not fall
-                    this.transform.position = characterManager.ItemDestinationMain.position;
-                    this.transform.parent = GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform;
-                    actCMSSet_iM(true);
-                    isBeingCarried = true;
-                    txt_warning.text = "I have picked up an item.";
-                }
-            }
-            else
-            {
-                txt_warning.text = "I cannot carry more items!";
+                else
+                { txt_warning.text = "I cannot carry more items!"; }
             }
         }
 
