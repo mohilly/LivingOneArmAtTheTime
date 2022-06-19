@@ -18,6 +18,7 @@ TagManager:
   - Tag_Environment
   - Tag_OtherHierarchy
   - Tag_UI
+  - Tag_Trigger
   layers:
   - Default
   - TransparentFX
