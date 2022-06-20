@@ -6,6 +6,8 @@ HOW TO PLAY:
 
 [SPACE] to start the game
 [ESC] to Quit/Pause the game
+
+[1],[2],[3] to change between characters 
 [W],[A],[S],[D] to move around the scene
 
 Mouse panning to look around and hover over the objects
