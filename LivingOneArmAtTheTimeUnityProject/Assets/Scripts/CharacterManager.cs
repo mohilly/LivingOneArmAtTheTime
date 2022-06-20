@@ -23,11 +23,8 @@ public class CharacterManager : MonoBehaviour
     float characterRotation = 0f;
     public bool switching = false;
 
-
-
-    //SPAGEHTTTIIIO
-    //public bool instantatedDahy = false;
-    //public bool instantatedDexter = false;
+    public string characterName = "Armstrong";
+    public Color barsColor = new Color32(255, 189, 202, 255);
 
     #endregion
     #region - Movement input floats and vectors - 
@@ -40,11 +37,13 @@ public class CharacterManager : MonoBehaviour
     #endregion
     #region - Speed, Stamina, Strength -
     [Header("3S")]
-    float[] activeSpeedStaminaStrength;
-    float activeSpeed;
-    float activeStamina;
-    float activeStrength;
+    public float[] activeSpeedStaminaStrength;
+    public float activeSpeed;
+    public float activeStamina;
+    public float activeStrength;
     #endregion
+    #region - Raycasting limitations - 
+    [Header("Raycasting limitations")]
     public float armstrongMaxHeight;
     public float armstrongMaxDistance;
     public float dahyMaxHeight;
@@ -54,12 +53,13 @@ public class CharacterManager : MonoBehaviour
 
     public float invalidHeight = 1.5f;
     public float invalidDistance = 2f;
-
+    #endregion
     #region - Action -
     [Header("Carrying and Balance Action")]
     public bool isMoving = false;
-
     public bool need2KeepBalance = false; // false by default, triggered by certain types of action
+    public float activeBalance = 10;
+
     public float currentBalance = 10;
     public float currentStamina;
     #endregion
@@ -97,7 +97,6 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     public bool[] itemCarryArrayDexter;
     #endregion
-
     #region - Items -
     [Header("Items")]
     public Transform ItemDestinationMain;
@@ -133,6 +132,7 @@ public class CharacterManager : MonoBehaviour
         actCMSSet();
         actCMSGet();
         actCMSUpdate();
+        characterName = "Armstrong";
 
         armstrongMaxHeight = 1.4f;
         armstrongMaxDistance = 1f;
@@ -170,7 +170,8 @@ public class CharacterManager : MonoBehaviour
         if (!PauseMenuScript.isPaused)
         { characterMove(); }
         characterStamina();
-               
+        characterBalance();
+
         ItemDestinationMain = GameObject.FindGameObjectWithTag(tagItemMain).transform;
         ItemDestinationSpaced = GameObject.FindGameObjectWithTag(tagItemSpaced).transform;
 
@@ -201,6 +202,8 @@ public class CharacterManager : MonoBehaviour
                 invalidHeight = armstrongMaxHeight;
                 invalidDistance = armstrongMaxDistance;
                 actSSSSet(Armstrong);
+                characterName = "Armstrong";
+                barsColor = new Color32(255, 189, 202, 255); //baby Pink colour
                 break;
             case 2:
                 tagCharacter = "Tag_Dahy";
@@ -212,6 +215,8 @@ public class CharacterManager : MonoBehaviour
                 invalidHeight   = dahyMaxHeight;
                 invalidDistance = dahyMaxDistance;
                 actSSSSet(Dahy);
+                characterName = "Dahy";
+                barsColor = new Color32(119, 241, 115, 255); //light green colour
                 break;
             case 3:
                 tagCharacter = "Tag_Dexter";
@@ -223,6 +228,8 @@ public class CharacterManager : MonoBehaviour
                 invalidHeight   = dexterMaxHeight;
                 invalidDistance = dexterMaxDistance;
                 actSSSSet(Dexter);
+                characterName = "Dexter";
+                barsColor = new Color32(255, 229, 120, 255); //yellow colour
                 break;
         }
     }
@@ -265,6 +272,12 @@ public class CharacterManager : MonoBehaviour
     {
         if (isMoving) { characterStaminaDecrease(); }
         else if (!isMoving) { characterStaminaIncrease(); }
+    }
+
+    public void characterBalance()
+    {
+        if (need2KeepBalance && isMoving) { characterBalanceDecrease(); } //balance will be decreased only when character is carrying something in spaced and is moving at the same time
+        else if (!need2KeepBalance) { characterBalanceIncrease(); }
     }
     #endregion
 
@@ -383,7 +396,27 @@ public class CharacterManager : MonoBehaviour
         { currentStamina += 1f * Time.deltaTime; }
         if (currentStamina > actSSSGet()[1])
         { currentStamina = actSSSGet()[1]; }
-        //Debug.Log("Increasing stamina to " + currentStamina);
+    }
+    #endregion
+
+    #region - need2KeepBalance, Balance change -
+    void characterBalanceDecrease()
+    {
+        if (currentBalance > 0)
+        { currentBalance -= 1f * Time.deltaTime; }
+        else if (currentBalance <= 0)
+        { currentBalance = 0; }
+    }
+
+    void characterBalanceIncrease()
+    {
+        if (currentBalance <= activeBalance)
+        { currentBalance += 1f * Time.deltaTime; }
+        if (currentBalance > activeBalance)
+        { currentBalance = activeBalance; }
+
+        Debug.Log("current Balance: " + currentBalance);
+        Debug.Log("active Balance: " + activeBalance);
     }
     #endregion
 

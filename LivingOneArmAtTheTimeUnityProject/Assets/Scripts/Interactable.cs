@@ -42,12 +42,13 @@ public class Interactable : MonoBehaviour
         }
 
         itemCarry();
-       // if (itemMainCarry_i) { actCMSSet_iM(true); } else { actCMSSet_iM(false); }
-       // if (itemSpcdCarry_i) { actCMSSet_iS(true); } else { actCMSSet_iS(false); }
         OnMouseDown();
 
         invalidHeight_i = characterManager.invalidHeight;
 
+        //If character is carrying something in spaced, then balance needs to be kept, that is it is decreased
+        if (itemSpcdCarry_i) { characterManager.need2KeepBalance = true; }
+        else if (!itemSpcdCarry_i) { characterManager.need2KeepBalance = false; }
     }
     #region - Items - 
     public void itemCarry()

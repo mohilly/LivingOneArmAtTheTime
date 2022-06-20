@@ -31,9 +31,7 @@ public class PlayerCasting : MonoBehaviour
     {
         invalidHeight_ps = characterManager.invalidHeight;
 
-        //if (selectionRenderer != null) 
         {
-            //Debug.Log("Renderer exists");
             if (_selection != null)
             {
                 var selectionRenderer = _selection.GetComponent<Renderer>();
@@ -42,8 +40,6 @@ public class PlayerCasting : MonoBehaviour
                 _selection = null;
             }
 
-            //raycasting from camera  // maybe I don't need this?
-            //var Ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit Hit;
             if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out Hit,characterManager.invalidDistance))
             {
@@ -67,7 +63,6 @@ public class PlayerCasting : MonoBehaviour
                     _selection = selection;
                 }
             }
-        } //else if (selectionRenderer == null) { Debug.Log("Object has no renderer"); }
-
+        } 
     }
 }

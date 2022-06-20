@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class UIManager : MonoBehaviour
@@ -8,14 +9,24 @@ public class UIManager : MonoBehaviour
     public GameObject characters;
     public CharacterManager characterManager;
 
-    public TMP_Text txt_speedNum;
+    public TMP_Text CharacterNameDisplay;
 
     float speedUI = 0f;
     float staminaUI = 0f;
     float balanceUI = 10f;
 
+    public TMP_Text txt_speedNum;
     public TMP_Text txt_staminaNumCur;
     public TMP_Text txt_balanceNumCur;
+
+    public Slider staminaSlider;
+    public Image staminaFillColour;
+    
+    public Slider balanceSlider;
+    public Image balanceFillColour;
+
+    float staminaProgressValue;
+    float balanceProgressValue;
 
     /// <summary>
     /// TO-DO List THINGIES
@@ -57,6 +68,8 @@ public class UIManager : MonoBehaviour
 
         txt_staminaNumCur.text = staminaUI.ToString();
         txt_balanceNumCur.text = balanceUI.ToString();
+
+        CharacterNameDisplay.text = characterManager.characterName;
     }
 
     void Update()
@@ -83,5 +96,16 @@ public class UIManager : MonoBehaviour
         if (drinksLR)   { txt_TickDrinks.text   = "________";}      else { txt_TickDrinks.text    = ""; }
         if (pizzaLR)    { txt_TickPizza.text    = "_______";}       else { txt_TickPizza.text     = ""; }
         if (presnetLR)  { txt_TickPresents.text = "__________";}    else {  txt_TickPresents.text = ""; }
+
+        //changing stamina slider
+        CharacterNameDisplay.text = characterManager.characterName;
+        staminaProgressValue = Mathf.Clamp01(characterManager.currentStamina / characterManager.activeStamina);
+        staminaSlider.value = staminaProgressValue;
+        staminaFillColour.color = characterManager.barsColor;
+
+        //changing balance
+        balanceProgressValue = Mathf.Clamp01(characterManager.currentBalance / characterManager.activeBalance); ;
+        balanceSlider.value = balanceProgressValue;
+        balanceFillColour.color = characterManager.barsColor;
     }
 }

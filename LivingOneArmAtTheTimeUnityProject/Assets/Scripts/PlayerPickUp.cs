@@ -115,7 +115,6 @@ public class PlayerPickUp : MonoBehaviour
     {
         //function to place an object down from MAIN slot
     }
-
     #endregion
 
     public void OnMouseDown()

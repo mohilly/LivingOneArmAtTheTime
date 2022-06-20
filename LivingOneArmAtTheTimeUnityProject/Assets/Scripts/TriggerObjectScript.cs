@@ -63,7 +63,7 @@ public class TriggerObjectScript : MonoBehaviour
             case "PIZZA BOX 01":
                 pizza01 = true;
                 break;
-            case "PIZZA BOX":
+            case "PIZZA BOX 02":
                 pizza02 = true;
                 break;
             case "PRESENT 01":
@@ -103,7 +103,7 @@ public class TriggerObjectScript : MonoBehaviour
             case "PIZZA BOX 01":
                 pizza01 = false;
                 break;
-            case "PIZZA BOX":
+            case "PIZZA BOX 02":
                 pizza02 = false;
                 break;
             case "PRESENT 01":

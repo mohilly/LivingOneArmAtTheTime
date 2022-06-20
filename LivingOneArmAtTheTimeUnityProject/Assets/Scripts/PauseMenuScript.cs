@@ -25,7 +25,7 @@ public class PauseMenuScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
-            if(isPaused) { BacktoMenu(0); }
+            if (isPaused) { BacktoMenu(0); }
             else if (!isPaused) { PauseGame(); }
 
         }
@@ -51,6 +51,7 @@ public class PauseMenuScript : MonoBehaviour
 
     public void BacktoMenu(int sceneId)
     {
+        Time.timeScale = 1f;
         StartCoroutine(LoadSceneAsync(sceneId));
     }
 
