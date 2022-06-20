@@ -167,10 +167,9 @@ public class CharacterManager : MonoBehaviour
         // LOOK UP ON LINE ABOVE = CHANGE ITEMS PARENT TO THE EMPTY TRANSFORM OBJECT ALREADY ATTACHED TO PLAYER'S (HAND, LAP ETC), THEN CHANGE POSITION OF PICKED ITEM TO (0,0,0,) TO BE IN CENTER 
 
         calculateGravity();
-        characterMove();
+        if (!PauseMenuScript.isPaused)
+        { characterMove(); }
         characterStamina();
-
-        if(Input.GetKeyDown(KeyCode.Escape)) { } //make sure to add EXITING OF THE GAME AND TERMINATING THE PROGRAM
                
         ItemDestinationMain = GameObject.FindGameObjectWithTag(tagItemMain).transform;
         ItemDestinationSpaced = GameObject.FindGameObjectWithTag(tagItemSpaced).transform;

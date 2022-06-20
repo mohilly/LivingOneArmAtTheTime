@@ -40,31 +40,81 @@ public class TriggerObjectScript : MonoBehaviour
 
     void OnTriggerEnter(Collider other) 
     {
-        if (other.gameObject.name == "CAKE")         { cakeTOS   = true; }
-        if (other.gameObject.name == "CUP 01")       { cup01     = true; }
-        if (other.gameObject.name == "CUP 02")       { cup02     = true; }
-        if (other.gameObject.name == "CUP 03")       { cup03     = true; }
-        if (other.gameObject.name == "BOTTLE")       { drink01   = true; }
-        if (other.gameObject.name == "JUICE")        { drink02   = true; }
-        if (other.gameObject.name == "PIZZA BOX 01") { pizza01   = true; }
-        if (other.gameObject.name == "PIZZA BOX 02") { pizza02   = true; }
-        if (other.gameObject.name == "PRESENT 01")   { present01 = true; }
-        if (other.gameObject.name == "PRESENT 02")   { present02 = true; }
-        if (other.gameObject.name == "PRESENT 03")   { present03 = true; }
+        switch (other.gameObject.name)
+        {
+            case "CAKE":
+                cakeTOS = true;
+                break;
+            case "CUP 01":
+                cup01 = true;
+                break;
+            case "CUP 02":
+                cup02 = true;
+                break;
+            case "CUP 03":
+                cup03 = true;   
+                break;
+            case "BOTTLE":
+                drink01 = true;
+                break;
+            case "JUICE":
+                drink02 = true;
+                break;
+            case "PIZZA BOX 01":
+                pizza01 = true;
+                break;
+            case "PIZZA BOX":
+                pizza02 = true;
+                break;
+            case "PRESENT 01":
+                present01 = true;
+                break;
+            case "PRESENT 02":
+                present02 = true;
+                break;
+            case "PRESENT 03":
+                present03 = true;
+                break;
+        }
     }
 
     void OnTriggerExit(Collider other)
-    {       
-        if (other.gameObject.name == "CAKE")         { cakeTOS   = false; }
-        if (other.gameObject.name == "CUP 01")       { cup01     = false; }
-        if (other.gameObject.name == "CUP 02")       { cup02     = false; }
-        if (other.gameObject.name == "CUP 03")       { cup03     = false; }
-        if (other.gameObject.name == "BOTTLE")       { drink01   = false; }
-        if (other.gameObject.name == "JUICE")        { drink02   = false; }
-        if (other.gameObject.name == "PIZZA BOX 01") { pizza01   = false; }
-        if (other.gameObject.name == "PIZZA BOX 02") { pizza02   = false; }
-        if (other.gameObject.name == "PRESENT 01")   { present01 = false; }
-        if (other.gameObject.name == "PRESENT 02")   { present02 = false; }
-        if (other.gameObject.name == "PRESENT 03")   { present03 = false; }
+    {
+        switch (other.gameObject.name)
+        {
+            case "CAKE":
+                cakeTOS = false;
+                break;
+            case "CUP 01":
+                cup01 = false;
+                break;
+            case "CUP 02":
+                cup02 = false;
+                break;
+            case "CUP 03":
+                cup03 = false;
+                break;
+            case "BOTTLE":
+                drink01 = false;
+                break;
+            case "JUICE":
+                drink02 = false;
+                break;
+            case "PIZZA BOX 01":
+                pizza01 = false;
+                break;
+            case "PIZZA BOX":
+                pizza02 = false;
+                break;
+            case "PRESENT 01":
+                present01 = false;
+                break;
+            case "PRESENT 02":
+                present02 = false;
+                break;
+            case "PRESENT 03":
+                present03 = false;
+                break;
+        }
     }
 }
