@@ -374,8 +374,8 @@ public class CharacterManager : MonoBehaviour
         //NEED TO UPDATE THIS SO IT TAKES THE SPEED, AND INCREASES TO IT.
         moving = activeCharacter.transform.rotation * transform.forward * WSinput * actSSSGet()[0] * Time.deltaTime;
 
-        if (WSinput != 0) { isMoving = true; } // Debug.Log("Character is moving");  confirmed it works
-        else { isMoving = false; } // Debug.Log("Character is still")confirmed it works
+        if (WSinput != 0) { isMoving = true; }
+        else { isMoving = false; }
 
         controller.Move(moving + gravityMovement);
         controller.transform.Rotate(turning);
@@ -387,7 +387,6 @@ public class CharacterManager : MonoBehaviour
         { currentStamina -= 1f * Time.deltaTime; }
         else if (currentStamina <= 0)
         { currentStamina = 0; }
-        //Debug.Log(currentStamina);
     }
 
     void characterStaminaIncrease()
@@ -414,9 +413,6 @@ public class CharacterManager : MonoBehaviour
         { currentBalance += 1f * Time.deltaTime; }
         if (currentBalance > activeBalance)
         { currentBalance = activeBalance; }
-
-        Debug.Log("current Balance: " + currentBalance);
-        Debug.Log("active Balance: " + activeBalance);
     }
     #endregion
 

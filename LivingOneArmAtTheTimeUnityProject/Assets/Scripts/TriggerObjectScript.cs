@@ -25,7 +25,7 @@ public class TriggerObjectScript : MonoBehaviour
     [SerializeField] bool pizza01 = false;
     [SerializeField] bool pizza02 = false;
 
-    public bool allObjectsTOS = false;
+    public static bool allObjectsTOS = false;
 
     void Update()
     {

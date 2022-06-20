@@ -13,11 +13,16 @@ public class PauseMenuScript : MonoBehaviour
     public GameObject loadingScreen;
     public Slider slider;
 
+    public GameObject endGameScreen;
+    public  bool isEnd = false;
+    public  bool isCompleted = false;
+
     // Start is called before the first frame update
     void Start()
     {
         loadingScreen.SetActive(false);
         pauseMenu.SetActive(false);
+        endGameScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -25,16 +30,20 @@ public class PauseMenuScript : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
-            if (isPaused) { BacktoMenu(0); }
+            if (isPaused || isEnd) { BacktoMenu(0); }
             else if (!isPaused) { PauseGame(); }
 
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (isPaused) { ResumeGame(); }
+            if(isEnd) { ReloadGame(); }
         }
-    }
 
+        if (TriggerObjectScript.allObjectsTOS == true) { isCompleted = true; }
+        if(isCompleted) { endGameScreen.SetActive(true); isEnd = true; }
+        
+    }
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
@@ -49,9 +58,20 @@ public class PauseMenuScript : MonoBehaviour
         isPaused = false;
     }
 
+    public void ReloadGame()
+    {
+        endGameScreen.SetActive(false);
+        Time.timeScale = 1f;
+        Scene scene = SceneManager.GetActiveScene(); 
+        SceneManager.LoadScene(scene.name);
+        isPaused = false;
+        isEnd = false;
+    }
+
     public void BacktoMenu(int sceneId)
     {
         Time.timeScale = 1f;
+        isPaused = false;
         StartCoroutine(LoadSceneAsync(sceneId));
     }
 

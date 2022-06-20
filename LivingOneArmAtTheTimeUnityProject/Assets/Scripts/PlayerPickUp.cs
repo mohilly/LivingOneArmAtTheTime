@@ -39,7 +39,6 @@ public class PlayerPickUp : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(characterManager.itemCarryArrGet()[0]);
         actCMSGet_i(characterManager); //fetching currently active stats for Carry Bools
     }
     private void Update()
@@ -54,8 +53,6 @@ public class PlayerPickUp : MonoBehaviour
         itemCarry();
         OnMouseDown();
     }
-    //THIS CODE NEEDS TO BE IN A SPECIAL SCRIPT ATTACHED TO INTERACTABLE OBJECTS OK
-    //IS THIS EVEN NECESSARY
     #region - Items - 
     public void itemCarry()
     {
@@ -184,7 +181,6 @@ public class PlayerPickUp : MonoBehaviour
     public void actCMSSet_iM(bool main)
     {
         characterManager.actCMSUpdate_CMm(main);
-        //Debug.Log("actCMSSet_iM in Interactable.cs  is being set to " + main); //works but.... nothing changed.....
     }
 
     public void actCMSSet_iS(bool spaced)
