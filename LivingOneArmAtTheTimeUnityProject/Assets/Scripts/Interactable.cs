@@ -49,6 +49,20 @@ public class Interactable : MonoBehaviour
         //If character is carrying something in spaced, then balance needs to be kept, that is it is decreased
         if (itemSpcdCarry_i) { characterManager.need2KeepBalance = true; }
         else if (!itemSpcdCarry_i) { characterManager.need2KeepBalance = false; }
+        if (characterManager.currentBalance <=0 && this.transform.position == characterManager.ItemDestinationSpaced.position) 
+        {
+            itemDrop();
+            actCMSSet_iS(false);
+            isBeingCarried = false;
+        }
+
+        if (characterManager.currentStaminaGet() <= 0)
+        {
+            txt_warning.text = "I am tired. I need to stop for a couple of seconds..";
+            StartCoroutine(RemoveSubtitles());
+        }
+
+
     }
     #region - Items - 
     public void itemCarry()
@@ -108,28 +122,31 @@ public class Interactable : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !isBeingCarried && canBePickedUp) //&& (playerCasting.toTarget <= 2)) //Debug.Log("Pressed left click."); //IF ITEM IS NOT BEING CARRIED CURRENTLY.
         {
             if (invalidHeight_i < this.transform.position.y) // if this item's y value (height) is bigger then current characters max height value, that character cannot reach that item
-            { txt_warning.text = "This item is too high for me to reach! Maybe my roomate can reach it."; } 
+            { 
+                txt_warning.text = "This item is too high for me to reach!\nMaybe my roomate can reach it.";
+                StartCoroutine(RemoveSubtitles());
+            } 
             else 
             {
                 if (canCarryItems_i)
                 {
-                    if (itemMainCarry_i && !itemSpcdCarry_i) //iF character is carrying something in the man slot, but spaced is free
+                    if ((!itemMainCarry_i && itemSpcdCarry_i) || (!itemMainCarry_i && !itemSpcdCarry_i))
                     {
-                        txt_warning.text = "I cannot carry another item in the main slot. I need to switch its position first. Press [SPACE]";
-                    }
-                    else if ((!itemMainCarry_i && itemSpcdCarry_i) || (!itemMainCarry_i && !itemSpcdCarry_i))
-                    {
-                        GetComponent<BoxCollider>().enabled = false;
-                        GetComponent<Rigidbody>().useGravity = false; // making sure the object character picks up does not fall
-                        this.transform.position = characterManager.ItemDestinationMain.position;
-                        this.transform.parent = GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform;
+                        itemPickUp();
                         actCMSSet_iM(true);
                         isBeingCarried = true;
-                        txt_warning.text = "I have picked up an item.";
+                    }
+                    else if (itemMainCarry_i && !itemSpcdCarry_i) //iF character is carrying something in the man slot, but spaced is free
+                    {
+                        txt_warning.text = "I cannot carry another item in my main hand. \n(Press [SPACE] to move item to the secondary place)";
+                        StartCoroutine(RemoveSubtitles());
                     }
                 }
                 else
-                { txt_warning.text = "I cannot carry more items!"; }
+                { 
+                    txt_warning.text = "I cannot carry any more items!";
+                    StartCoroutine(RemoveSubtitles());
+                }
             }
         }
 
@@ -141,17 +158,15 @@ public class Interactable : MonoBehaviour
             {
                 if (this.transform.position == characterManager.ItemDestinationMain.position)
                 {
-                    this.transform.parent = null; // removing parent
-                    GetComponent<Rigidbody>().useGravity = true;
-                    GetComponent<BoxCollider>().enabled = true;
+                    itemDrop();
                     actCMSSet_iM(false);
                     isBeingCarried = false;
-                    txt_warning.text = "I have dropped the item.";
                 }
                 else if (this.transform.position == characterManager.ItemDestinationSpaced.position)
                 {
                     isBeingCarried = true;
-                    txt_warning.text = "I have item in spaced slot";
+                    txt_warning.text = "I have put this item into my seconadry place";
+                    StartCoroutine(RemoveSubtitles());
                 }
             }
             if (itemSpcdCarry_i) // if item is in the main carry slot AND if this item is at the currently active destination
@@ -161,11 +176,32 @@ public class Interactable : MonoBehaviour
                }
                else if (this.transform.position == characterManager.ItemDestinationSpaced.position)
                {
-                   txt_warning.text = "I have item in spaced slot, but not in main";
+                    txt_warning.text = "I must have item in my main hand to put it down deliberately.\n(Press [SPACE] to move item from secondary place)";
+                    StartCoroutine(RemoveSubtitles());
                     isBeingCarried = true;
                }
             }
         }
+    }
+
+    void itemPickUp()
+    {
+        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<Rigidbody>().useGravity = false; // making sure the object character picks up does not fall
+        this.transform.position = characterManager.ItemDestinationMain.position;
+        this.transform.parent = GameObject.FindGameObjectWithTag(characterManager.tagItemMain).transform;
+        txt_warning.text = "I have picked up an item.";
+        StartCoroutine(RemoveSubtitles());
+    }
+
+    void itemDrop()
+    {
+        this.transform.forward = new Vector3 (5, 5, 5);
+        this.transform.parent = null; // removing parent
+        GetComponent<Rigidbody>().useGravity = true;
+        GetComponent<BoxCollider>().enabled = true;
+        txt_warning.text = "I have dropped the item.";
+        StartCoroutine(RemoveSubtitles());
     }
 
     public void actCMSGet_i(CharacterManager characterManager)
@@ -191,5 +227,11 @@ public class Interactable : MonoBehaviour
     public void actCMSSet_iS(bool spaced)
     {
         characterManager.actCMSUpdate_CMs(spaced);
+    }
+
+    IEnumerator RemoveSubtitles()
+    {
+        yield return new WaitForSeconds(3);
+        txt_warning.text = " ";
     }
 }

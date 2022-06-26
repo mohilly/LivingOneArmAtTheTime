@@ -34,6 +34,8 @@ public class CharacterManager : MonoBehaviour
 
     Vector3 turning;
     Vector3 moving;
+
+    public bool cannotMove = false;
     #endregion
     #region - Speed, Stamina, Strength -
     [Header("3S")]
@@ -149,6 +151,7 @@ public class CharacterManager : MonoBehaviour
         currentStamina = actSSSGet()[1];
         ItemDestinationMain = GameObject.FindGameObjectWithTag(tagItemMain).transform;
         ItemDestinationSpaced = GameObject.FindGameObjectWithTag(tagItemSpaced).transform;
+        cannotMove = false;
     }
     void Update()
     {
@@ -168,7 +171,16 @@ public class CharacterManager : MonoBehaviour
 
         calculateGravity();
         if (!PauseMenuScript.isPaused)
-        { characterMove(); }
+        {
+            if(currentStaminaGet()<0)
+            {
+                isMoving = false;
+                StartCoroutine(movementPauseStamina());
+            }
+            
+            if (!cannotMove)
+            { characterMove(); }
+        }
         characterStamina();
         characterBalance();
 
@@ -270,8 +282,10 @@ public class CharacterManager : MonoBehaviour
 
     public void characterStamina()
     {
-        if (isMoving) { characterStaminaDecrease(); }
-        else if (!isMoving) { characterStaminaIncrease(); }
+        if (isMoving) 
+        { characterStaminaDecrease(); }
+        else if (!isMoving) 
+        { characterStaminaIncrease(); }
     }
 
     public void characterBalance()
@@ -384,7 +398,7 @@ public class CharacterManager : MonoBehaviour
     void characterStaminaDecrease()
     {
         if (currentStamina > 0)
-        { currentStamina -= 1f * Time.deltaTime; }
+        { currentStamina -= (activeSpeed/10) * Time.deltaTime; }
         else if (currentStamina <= 0)
         { currentStamina = 0; }
     }
@@ -392,9 +406,20 @@ public class CharacterManager : MonoBehaviour
     void characterStaminaIncrease()
     {
         if (currentStamina <= actSSSGet()[1])
-        { currentStamina += 1f * Time.deltaTime; }
+        { currentStamina += (activeSpeed / 10) * Time.deltaTime; }
         if (currentStamina > actSSSGet()[1])
         { currentStamina = actSSSGet()[1]; }
+    }
+    public float currentStaminaGet()
+    {
+        return currentStamina;
+    }
+
+    IEnumerator movementPauseStamina()
+    {
+        cannotMove = true;
+        yield return new WaitForSeconds(3);
+        cannotMove = false;
     }
     #endregion
 
@@ -414,6 +439,12 @@ public class CharacterManager : MonoBehaviour
         if (currentBalance > activeBalance)
         { currentBalance = activeBalance; }
     }
+
+    public float characterBalanceGet()
+    {
+        return currentBalance;
+    }
+
     #endregion
 
     #region - Gravity - 
